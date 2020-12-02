@@ -1,17 +1,13 @@
 package interfaces;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.List;
 import java.util.Date;
 
 public interface user {
 
-
-    /**
-     * Note: on creation UserID is Final!!!
-     * @return the user id as a string.
-     */
-    public String getUserID();
 
     /**
      *
@@ -36,35 +32,39 @@ public interface user {
      */
     public void setUserName(String name);
 
+    /*
+
     /**
      *
      * @return the birthday of the user.
      */
-    public Date getBirthday();
-
+    //public Date getBirthday();
+    /*
     /**
      * change the birthday of the user.
      * @param d - the new date to assign to the user.
      */
-    public void setBirthday(Date d);
+    //public void setBirthday(Date d);
 
     /**
      *
-     * @return - the list of all the user friends.
+     * @return - the list of all the user friends IDs.
      */
-    public List<user> getFriends();
+    public List<String> getFriends();
 
-    public user getFriend(String userID);
+
+    // to remove
+    //public user getFriend(String userID);
 
     public void addFriend(String userID);
 
     public void removeFriend(String userID);
 
     /**
-     *
-     * @return all the event of this user.
+     * changed
+     * @return all the event IDs of this user.
      */
-    public List<event> getEvents();
+    public List<String> getEvents();
 
     /**
      * get all the event between the dates.
@@ -72,7 +72,7 @@ public interface user {
      * @param to - the date to end search on.
      * @return - a list of all the events between the dates.
      */
-    public List<event> getEventsIn(Date from, Date to);
+    public List<String> getEventsIn(Date from, Date to);
 
     /**
      * assign new event for the user
@@ -87,24 +87,21 @@ public interface user {
      */
     public void removeEvent(String eventID);
 
-
+    /*
     /**
      * note: file must be png,jpg,jepg.
      * @return -return the file of the photo of the user.
      * @throws - IllegalArgumentException if file format if wrong.
      */
-    public File getPhoto() throws IllegalArgumentException;
+    //public File getPhoto() throws IllegalArgumentException;
 
+    /*
     /**
      * change the profile photo of the user.
      * note: file must be png,jpg,jepg.
      * @param f - the new photo of the user.
      * @throws - IllegalArgumentException if file format if wrong.
      */
-    public void setPhoto(File f) throws IllegalArgumentException;
+    //public void setPhoto(File f) throws IllegalArgumentException;
 
-    /**
-     * create a json file of the user.
-     */
-    public void toJson();
 }

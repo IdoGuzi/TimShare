@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp">
+
+
+
+    <LinearLayout
+        android:id="@+id/Name_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/Email_block"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/Name_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter a username"
+            android:textSize="20dp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/User_Name_Entry"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:hint="User_Name" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Email_block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/Password_Block"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Name_block">
+
+        <TextView
+            android:id="@+id/Email_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter your e-mail address."
+            android:textSize="20dp" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/Email_Entry"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:hint="Email" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/Password_Block"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/confirm_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Email_block">
+
+        <TextView
+            android:id="@+id/Password_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Enter a Password"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/Password_define_Text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="8-16 charecters"
+            android:textSize="15dp" />
+
+        <EditText
+            android:id="@+id/Password_Entry"
+            android:layout_width="300dp"
+            android:layout_height="70dp"
+            android:ems="10"
+            android:hint="Password"
+            android:inputType="textPassword" />
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/teal_700"
+        android:text="Create account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.25"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Password_Block" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
