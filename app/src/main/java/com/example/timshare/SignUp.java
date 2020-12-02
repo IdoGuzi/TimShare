@@ -6,6 +6,7 @@ import interfaces.user;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -55,7 +56,7 @@ public class SignUp extends AppCompatActivity {
                             FirebaseUser user = fAuth.getCurrentUser();
                             user u = new PUser(mail.getText().toString(),name.getText().toString());
                             database.getReference("Users").child(user.getUid()).setValue(u);
-                            //startActivity(new Intent(this,login.class)); // go to loginactivity
+                            startActivity(new Intent(getApplicationContext(),Login.class));
                         }else{
                             Toast.makeText(SignUp.this,"failed: "+task.getException().toString(),Toast.LENGTH_LONG).show();
                         }
