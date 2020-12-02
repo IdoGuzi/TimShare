@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "919096676970",
+    "firebase_url": "https://timin-66aeb.firebaseio.com",
+    "project_id": "timin-66aeb",
+    "storage_bucket": "timin-66aeb.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:919096676970:android:f0de7d891d5e46ab213013",
+        "android_client_info": {
+          "package_name": "com.example.timshare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "919096676970-ufvc41ansgagqb4sauuargso9nimj4rm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBR3opTK4p_eeJJ7FWz_iuCwriMpC4IhS8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "919096676970-ufvc41ansgagqb4sauuargso9nimj4rm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
