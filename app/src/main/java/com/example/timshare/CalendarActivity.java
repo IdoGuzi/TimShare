@@ -21,6 +21,7 @@ public class CalendarActivity extends AppCompatActivity {
     private Calendar calendar;
     private SimpleDateFormat dateFormat;
     private String date;
+    private Intent myIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +40,8 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String Date=dayOfMonth+"-"+(month+1)+"-"+year;
-                Intent myIntent=new Intent(CalendarActivity.this, EventActivity.class);
-                myIntent.putExtra("com.example.timshare.EventDate",Date);
+                myIntent=new Intent(getApplicationContext(), EventActivity.class);
+                myIntent.putExtra("com.example.timshare.DATE", Date);
                 startActivity(myIntent);
             }
         });
@@ -48,7 +49,8 @@ public class CalendarActivity extends AppCompatActivity {
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent=new Intent(CalendarActivity.this, EventActivity.class);
+              myIntent=new Intent(getApplicationContext(), EventActivity.class);
+                myIntent.putExtra("com.example.timshare.DATE",date);
                 startActivity(myIntent);
             }
         });

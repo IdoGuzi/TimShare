@@ -6,11 +6,142 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="191dp"
+        android:layout_height="44dp"
+        android:backgroundTint="#E6E5E5"
+        android:lineSpacingExtra="10sp"
+        android:text="SAVEE"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#009688"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:iconTint="#F6FAF7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.927"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
+    <Button
+        android:id="@+id/cancleButton"
+        android:layout_width="191dp"
+        android:layout_height="44dp"
+        android:backgroundTint="#E6E5E5"
+        android:lineSpacingExtra="10sp"
+        android:text="CANCLE"
+        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textColor="#009688"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:iconTint="#F6FAF7"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.106"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.96" />
+
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TextView"
-        tools:layout_editor_absoluteX="171dp"
-        tools:layout_editor_absoluteY="286dp" />
+        android:id="@+id/startTextView3"
+        android:layout_width="91dp"
+        android:layout_height="37dp"
+        android:text="Location"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/startEventDateViewText"
+        app:layout_constraintHorizontal_bias="0.533"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endTextView"
+        app:layout_constraintVertical_bias="0.06" />
+
+    <TextView
+        android:id="@+id/endTextView"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="36dp"
+        android:text="end"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/endEventDateViewText"
+        app:layout_constraintHorizontal_bias="0.432"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startTextView"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <TextView
+        android:id="@+id/startEventDateViewText"
+        android:layout_width="252dp"
+        android:layout_height="31dp"
+        android:text="startEventDateViewText"
+        android:textColor="#009688"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.761"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="106dp" />
+
+    <TextView
+        android:id="@+id/endEventDateViewText"
+        android:layout_width="252dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="36dp"
+        android:layout_marginEnd="36dp"
+        android:text="endEventDateViewText"
+        android:textColor="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/startEventDateViewText"
+        app:layout_constraintVertical_bias="0.02" />
+
+    <EditText
+        android:id="@+id/EditTextTitle"
+        android:layout_width="413dp"
+        android:layout_height="90dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Title"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/startEventDateViewText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/startTextView"
+        android:layout_width="86dp"
+        android:layout_height="30dp"
+        android:text="Start"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/startEventDateViewText"
+        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="107dp" />
+
+    <EditText
+        android:id="@+id/EditTextTLocation"
+        android:layout_width="251dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Location"
+        android:textColor="#009688"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/startTextView3"
+        app:layout_constraintTop_toBottomOf="@+id/endEventDateViewText"
+        app:layout_constraintVertical_bias="0.058" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
