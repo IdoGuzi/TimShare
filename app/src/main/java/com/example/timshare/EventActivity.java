@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
@@ -28,6 +29,8 @@ import java.util.Locale;
 public class EventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener  {
 
     private  static  final String TAG ="EventActivity";
+
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     private TextView startEventDateViewText, endEventDateViewText;
     private EditText editTextEventName, editTextTLocation;
@@ -45,6 +48,13 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+        /*
+        DatabaseReference fdb = db.getReference();
+        fdb.child("Events").child(eventID).setValue(ven);
+        fdb.child("Users").child(ven.getOwnerID).addEvent(eventID)
+
+         */
 
         startEventDateViewText = findViewById(R.id.startEventDateViewText);
         endEventDateViewText = findViewById(R.id.endEventDateViewText);

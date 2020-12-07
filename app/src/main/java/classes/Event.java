@@ -8,14 +8,16 @@ import interfaces.user;
 
 public class Event implements event {
     private String eventID,eventName,eventDescription;
-    private Date eventDate;
-    private user eventOwner;
+    private Date eventStartingDate, eventEndingDate;
+    private String ownerID;
 
-    public Event(String eventName,String eventDescription,Date eventDate)
+    public Event(String ownerID, String eventName,String eventDescription,Date startingDate, Date endingDate)
     {
+        this.ownerID=ownerID;
         this.eventName=eventName;
         this.eventDescription=eventDescription;
-        this.eventDate=eventDate;
+        this.eventStartingDate=startingDate;
+        this.eventEndingDate=endingDate;
 
 
     }
@@ -35,6 +37,7 @@ public class Event implements event {
 
     }
 
+    /*
     @Override
     public eventType getEventType() {
         return null;
@@ -44,6 +47,8 @@ public class Event implements event {
     public void setEventType(eventType et) {
 
     }
+
+     */
 
     @Override
     public String getEventDescription() {
@@ -57,14 +62,24 @@ public class Event implements event {
     }
 
     @Override
-    public Date getEventDate() {
-        return this.eventDate;
+    public Date getEventStartingDate() {
+        return this.eventStartingDate;
     }
 
     @Override
-    public void setEventDate(Date d) {
-        this.eventDate=d;
+    public void setEventStartingDate(Date d) {
+        this.eventStartingDate=d;
 
+    }
+
+    @Override
+    public Date getEventEndingDate(){
+        return this.eventEndingDate;
+    }
+
+    @Override
+    public void setEventEndingDate(Date d){
+        this.eventEndingDate=d;
     }
 
     @Override
@@ -73,12 +88,12 @@ public class Event implements event {
     }
 
     @Override
-    public List<user> getEventAttendees() {
+    public List<String> getEventAttendees() {
         return null;
     }
 
     @Override
-    public List<user> getEventInvited() {
+    public List<String> getEventInvited() {
         return null;
     }
 
@@ -93,17 +108,15 @@ public class Event implements event {
     }
 
     @Override
-    public List<user> getEventDeclined() {
+    public List<String> getEventDeclined() {
         return null;
     }
 
+    /*
     @Override
     public String getEventLocation() {
         return null;
     }
 
-    @Override
-    public void toJson() {
-
-    }
+     */
 }

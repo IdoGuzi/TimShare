@@ -1,7 +1,8 @@
 package interfaces;
 
-import java.util.Date;
 import java.util.List;
+
+import java.util.Date;
 
 public interface event {
 
@@ -23,17 +24,19 @@ public interface event {
      */
     public void setEventName(String name);
 
+    /*
     /**
      *
      * @return - the type of the event.
      */
-    public eventType getEventType();
+    //public eventType getEventType();
 
+    /*
     /**
      * set the type of event.
      * @param et - a type of event classifier.
      */
-    public void setEventType(eventType et);
+    //public void setEventType(eventType et);
 
     /**
      *
@@ -48,17 +51,28 @@ public interface event {
     public void setEventDescription(String description);
 
     /**
-     *
      * @return the date of the event.
      */
-    public Date getEventDate();
+    public Date getEventStartingDate();
 
     /**
      * note: alert all attendees, invited on change.
      * change the date of the event.
      * @param d - new date for the event.
      */
-    public void setEventDate(Date d);
+    public void setEventStartingDate(Date d);
+
+    /**
+     * @return the date of the event.
+     */
+    public Date getEventEndingDate();
+
+    /**
+     * note: alert all attendees, invited on change.
+     * change the date of the event.
+     * @param d - new date for the event.
+     */
+    public void setEventEndingDate(Date d);
 
     /**
      *
@@ -70,13 +84,13 @@ public interface event {
      *
      * @return a list of all the users that accepted the event invitation.
      */
-    public List<user> getEventAttendees();
+    public List<String> getEventAttendees();
 
     /**
      *
      * @return - all the invited users to the event.
      */
-    public List<user> getEventInvited();
+    public List<String> getEventInvited();
 
     /**
      * invite a user to the event.
@@ -94,18 +108,15 @@ public interface event {
      *
      * @return a list of user that will not attend the event (but was invited).
      */
-    public List<user> getEventDeclined();
+    public List<String> getEventDeclined();
 
+    /*
     /**
      * return a string representation of the location.
      * @return the location of the event.
      */
-    public String getEventLocation();
+    //public String getEventLocation();
 
-    /**
-     * create a json file of the event.
-     */
-    public void toJson();
 
-    public enum eventType {personal,work,family,social,other}
+    //public enum eventType {personal,work,family,social,other}
 }
