@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -22,14 +25,21 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class EventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
-    private TextView startEventDateViewText,endEventDateViewText;
-    private EditText editTextEventName,editTextTLocation;
-    private int year,month,day,myYear,myday,myMonth,myHour,myMinute;
-    private Button cancelBtn,saveBtn;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private FirebaseAuth fAuth;
+public class EventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener  {
 
+    private  static  final String TAG ="EventActivity";
+
+    private TextView startEventDateViewText, endEventDateViewText;
+    private EditText editTextEventName, editTextTLocation;
+    private int year, month, day, myYear, myday, myMonth, myHour, myMinute;
+    private Button cancelBtn, saveBtn;
+    //private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private FirebaseAuth fAuth;
+    private boolean flag=false;
+
+    private DatePickerDialog.OnDateSetListener sDatePickerDialogListener;
+    private DatePickerDialog.OnDateSetListener eDatePickerDialogListener;
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,33 +47,12 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
         setContentView(R.layout.activity_event);
 
         startEventDateViewText = findViewById(R.id.startEventDateViewText);
-        endEventDateViewText=findViewById(R.id.endEventDateViewText);
-        editTextEventName=findViewById(R.id.EditTextTitle);
-        editTextTLocation=findViewById(R.id.EditTextTLocation);
-        cancelBtn=findViewById(R.id.cancleButton);
-        saveBtn=findViewById(R.id.saveButton);
+        endEventDateViewText = findViewById(R.id.endEventDateViewText);
+        editTextEventName = findViewById(R.id.EditTextTitle);
+        editTextTLocation = findViewById(R.id.EditTextTLocation);
+        cancelBtn = findViewById(R.id.cancleButton);
+        saveBtn = findViewById(R.id.saveButton);
 
-        if (getIntent().hasExtra("com.example.timshare.Date"))
-        {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "HH:mm:ss", Locale.getDefault());
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 6);
-            calendar.set(Calendar.MINUTE,0);
-            String dateText=getIntent().getExtras().getString("com.example.timshare.Date");
-            startEventDateViewText.setText(dateText+" "+(dateFormat.format(calendar)));
-            endEventDateViewText.setText(dateText+" "+(dateFormat.format(calendar)));
-        }
-        else
-        {
-            SimpleDateFormat dateFormat = new SimpleDateFormat(
-                    "yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR_OF_DAY, 6);
-            calendar.set(Calendar.MINUTE,0);
-            startEventDateViewText.setText(dateFormat.format(calendar));
-            endEventDateViewText.setText(dateFormat.format(calendar));
-        }
 
         startEventDateViewText.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,8 +61,12 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EventActivity.this, EventActivity.this, year, month, day);
-                datePickerDialog.show();
+                showDatePickerDialog(year,month,day);
+                if(flag) {
+                    String date = (myMonth + 1) + "/" + myday + "/" + myYear;
+                    startEventDateViewText.setText(date);
+                }
+                flag=false;
             }
         });
 
@@ -84,14 +77,16 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EventActivity.this, EventActivity.this, year, month, day);
-                datePickerDialog.show();
+                showDatePickerDialog(year,month,day);
+                String date=(myMonth+1)+"/"+myday+"/"+myYear;
+                endEventDateViewText.setText(date);
 
             }
         }));
-        String eventName=editTextEventName.getText().toString();
+        String eventName = editTextEventName.getText().toString();
         if (TextUtils.isEmpty(eventName)) {
-            editTextEventName.setError("Email is required.");
+            editTextEventName.setError("\n" +
+                    "Invalid title, please enter a name for the title.\n");
             return;
         }
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -106,37 +101,21 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(getApplicationContext(), CalendarActivity.class);
+                Intent myIntent = new Intent(EventActivity.this, CalendarActivity.class);
                 startActivity(myIntent);
             }
         });
 
-
-
-
+    }
+    private void showDatePickerDialog(int year,int month,int day){
+        DatePickerDialog datePickerDialog=new DatePickerDialog(this,this,year,month,day);
+        datePickerDialog.show();
     }
 
-        //@Override
-        public void onDateSet (DatePicker view,int year, int month, int dayOfMonth){
-            myYear = year;
-            myday = day;
-            myMonth = month;
-            Calendar c = Calendar.getInstance();
-            myHour = c.get(Calendar.HOUR);
-            myMinute = c.get(Calendar.MINUTE);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(EventActivity.this, EventActivity.this, myHour, myMinute, DateFormat.is24HourFormat(this));
-            timePickerDialog.show();
-        }
-
-        @Override
-        public void onTimeSet (TimePicker view,int hourOfDay, int minute){
-            myHour = hourOfDay;
-            myMinute = minute;
-            startEventDateViewText.setText("Year: " + myYear + "\n" +
-                    "Month: " + myMonth + "\n" +
-                    "Day: " + myday + "\n" +
-                    "Hour: " + myHour + "\n" +
-                    "Minute: " + myMinute);
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = ( month + 1) + "/" + dayOfMonth + "/" + dayOfMonth;
+        startEventDateViewText.setText(date);
 
     }
 }

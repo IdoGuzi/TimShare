@@ -3,6 +3,7 @@ package com.example.timshare;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
@@ -14,7 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.Calendar;
 
-public class CalendarActivity extends AppCompatActivity {
+public class CalendarActivity extends AppCompatActivity  {
 
     private CalendarView myCalender;
     private TextView dateTimeDisplay;
@@ -40,7 +41,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String Date=dayOfMonth+"-"+(month+1)+"-"+year;
-                myIntent=new Intent(getApplicationContext(), EventActivity.class);
+                myIntent=new Intent(CalendarActivity.this, EventActivity.class);
                 myIntent.putExtra("com.example.timshare.DATE", Date);
                 startActivity(myIntent);
             }
@@ -49,12 +50,12 @@ public class CalendarActivity extends AppCompatActivity {
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              myIntent=new Intent(getApplicationContext(), EventActivity.class);
-                myIntent.putExtra("com.example.timshare.DATE",date);
+              myIntent=new Intent(CalendarActivity.this, EventActivity.class);
                 startActivity(myIntent);
             }
         });
 
     }
+
 }
 
