@@ -70,7 +70,7 @@ public interface user {
      * @param to - the date to end search on.
      * @return - a list of all the events between the dates.
      */
-    public List<String> getEventsIn(Date from, Date to);
+    public List<event> getEventsIn(Date from, Date to);
 
     /**
      * assign new event for the user

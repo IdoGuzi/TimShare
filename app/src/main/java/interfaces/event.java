@@ -78,7 +78,7 @@ public interface event {
      *
      * @return the owner(creator) of the event.
      */
-    public user getEventOwner();
+    public String getEventOwnerID();
 
     /**
      *
