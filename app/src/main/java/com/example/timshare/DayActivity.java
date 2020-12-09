@@ -52,12 +52,12 @@ public class DayActivity extends AppCompatActivity {
         }
 
         try {
-            dateStart = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date + " " + "00:00");
+            dateStart = new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(date + " " + "00:00");
         } catch (ParseException e) {
             e.printStackTrace();
         }
         try {
-            dateEnd = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(date + " " + "23:59");
+            dateEnd = new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(date + " " + "23:59");
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -73,6 +73,9 @@ public class DayActivity extends AppCompatActivity {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot s : snapshot.getChildren()) {
+                    System.out.println("data" + s.getValue().getClass().toString());
+                }
                 PUser use = snapshot.getValue(PUser.class);
                 List<event> eventList = use.getEventsIn(dateStart, dateEnd);
                 ArrayList<String> eventsString = new ArrayList<>();
@@ -92,4 +95,16 @@ public class DayActivity extends AppCompatActivity {
             }
         });
     }
+
+    /*
+    private Date parser(String date){
+        String temp = date.substring(0,date.indexOf(' '));
+        String day = temp.substring(0,temp.indexOf('-'));
+        temp=temp.substring(0,temp.indexOf('-'));
+        String month = temp.substring(0,temp.indexOf('-'));
+        temp=temp.substring(0,temp.indexOf('-'));
+        return new Date(Integer.getInteger(temp),Integer.getInteger(month),Integer.getInteger(day));
+    }
+
+     */
 }

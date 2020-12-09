@@ -4,7 +4,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import java.util.Date;
+import classes.Date;
 
 public interface event {
 
@@ -55,7 +55,7 @@ public interface event {
     /**
      * @return the date of the event.
      */
-    public Date getEventStartingDate();
+    public classes.Date getEventStartingDate();
 
     /**
      * note: alert all attendees, invited on change.
@@ -67,7 +67,7 @@ public interface event {
     /**
      * @return the date of the event.
      */
-    public Date getEventEndingDate();
+    public classes.Date getEventEndingDate();
 
     /**
      * note: alert all attendees, invited on change.

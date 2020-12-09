@@ -13,9 +13,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import interfaces.event;
 import interfaces.user;
@@ -23,18 +23,22 @@ import interfaces.user;
 public class PUser implements user {
     private String Email;
     private String userName;
-    private Set<String> friends;
-    private Set<String> events;
+    private Map<String,Boolean> friends;
+    private Map<String,Boolean> events;
 
 
     public PUser(String email, String name) {
         this.Email = email;
         this.userName = name;
-        friends = new HashSet<>();
-        events = new HashSet<>();
+        friends = new HashMap<>();
+        events = new HashMap<>();
     }
 
     public PUser() {
+        this.Email="";
+        this.userName="";
+        this.friends=new HashMap<>();
+        this.events=new HashMap<>();
     }
 
 
@@ -73,7 +77,7 @@ public class PUser implements user {
      */
     @Override
     public List<String> getFriends() {
-        return new ArrayList<>(friends);
+        return new ArrayList<>(friends.keySet());
     }
     /*
     @Override
@@ -85,7 +89,7 @@ public class PUser implements user {
 
     @Override
     public void addFriend(String userID) {
-        friends.add(userID);
+        friends.put(userID,true);
     }
 
     @Override
@@ -94,19 +98,30 @@ public class PUser implements user {
     }
 
     @Override
+    public void setFriends(Map<String,Boolean> friends){
+        this.friends=friends;
+    }
+
+    @Override
     public List<String> getEvents() {
-        return new ArrayList<>(events);
+        return new ArrayList<>(events.keySet());
     }
 
     @Override
     public List<event> getEventsIn(Date from, Date to) {
         List<event> ev = new ArrayList<>();
         DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
-        for (String s : events) {
+        for (String s : events.keySet()) {
             eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Event even = snapshot.getValue(Event.class);
+                    //for debug
+                    System.out.println("start of event:" +even.getEventStartingDate().toString());
+                    System.out.println("start of quary:" +from.toString());
+                    System.out.println("end of event:" +even.getEventEndingDate().toString());
+                    System.out.println("end of quary:" +to.toString());
+                    //end debug
                     if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)) {
                         ev.add(even);
                     }
@@ -124,12 +139,17 @@ public class PUser implements user {
 
     @Override
     public void addEvent(event e) {
-        events.add(e.getEventID());
+        events.put(e.getEventID(),true);
     }
 
     @Override
     public void removeEvent(String eventID) {
         events.remove(eventID);
+    }
+
+    @Override
+    public void setEvents(Map<String,Boolean> events){
+        this.events=events;
     }
     /*
     @Override

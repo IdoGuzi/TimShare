@@ -68,6 +68,7 @@ public class EventActivity extends AppCompatActivity {
     private Date dateStart, dateEnd;
     private DatabaseReference mDatabase;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -154,7 +155,7 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                startDate = dayOfMonth + "/" + month + "/" + year;
+                startDate = dayOfMonth + "/" + (month+1) + "/" + year;
                 startEventDateViewText.setText(startDate);
             }
         }, myYear, myMonth, myDay);
@@ -171,7 +172,7 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                endDate = dayOfMonth + "/" + month + "/" + year;
+                endDate = dayOfMonth + "/" + (month+1) + "/" + year;
                 endEventDateViewText.setText(endDate);
             }
         }, myYear, myMonth, myDay);
@@ -222,6 +223,7 @@ public class EventActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     // Write new post
+                                    //PUser user = dataSnapshot.getValue(PUser.class);
                                     writeNewEvent(uid, eventName, Description,location, dateStart, dateEnd);
                                 }
                             }
@@ -245,6 +247,6 @@ public class EventActivity extends AppCompatActivity {
         String key=eventRef.getKey();
         event myEvent = new Event(ownerID,key, eventName,eventDescription,eventLocation,startingDate,endingDate);
         eventRef.setValue(myEvent);
-
+        mDatabase.child("Users").child(ownerID).child("events").child(key).setValue(true);
     }
 }

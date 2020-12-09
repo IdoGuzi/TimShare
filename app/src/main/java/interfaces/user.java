@@ -3,6 +3,7 @@ package interfaces;
 
 import java.util.List;
 import java.util.Date;
+import java.util.Map;
 
 public interface user {
 
@@ -56,6 +57,8 @@ public interface user {
 
     public void removeFriend(String userID);
 
+
+    public void setFriends(Map<String,Boolean> friends);
     /**
      * changed
      *
@@ -86,6 +89,9 @@ public interface user {
      * @param eventID
      */
     public void removeEvent(String eventID);
+
+
+    public void setEvents(Map<String,Boolean> friends);
 
     /*
     /**

@@ -2,6 +2,7 @@ package classes;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import interfaces.event;
 import interfaces.user;
@@ -58,6 +59,11 @@ public class Business implements user {
     }
 
     @Override
+    public void setFriends(Map<String,Boolean> friends) {
+
+    }
+
+    @Override
     public List<String> getEvents() {
         return null;
     }
@@ -74,6 +80,11 @@ public class Business implements user {
 
     @Override
     public void removeEvent(String eventID) {
+
+    }
+
+    @Override
+    public void setEvents(Map<String,Boolean> friends) {
 
     }
 

@@ -3,21 +3,30 @@ package classes;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import interfaces.event;
-import interfaces.user;
 
 public class Event implements event {
     private String eventID, eventName, eventDescription, eventLocation;
     private Date eventStartingDate, eventEndingDate;
     private String ownerID;
-    private Set<String> attendees, invited, declined;
+    private Map<String,Boolean> attendees, invited, declined;
 
+    public Event(){
+        this.ownerID = "";
+        this.eventID = "";
+        this.eventName = "";
+        this.eventDescription = "";
+        this.eventLocation = "";
+        this.eventStartingDate = new Date();
+        this.eventEndingDate = new Date();
+        this.attendees = new HashMap<>();
+        this.invited = new HashMap<>();
+        this.declined = new HashMap<>();
+    }
 
     public Event(String ownerID, String eventID, String eventName, String eventDescription,String eventLocation, Date startingDate, Date endingDate) {
         this.ownerID = ownerID;
@@ -27,9 +36,9 @@ public class Event implements event {
         this.eventLocation = eventLocation;
         this.eventStartingDate = startingDate;
         this.eventEndingDate = endingDate;
-        this.attendees = new HashSet<>();
-        this.invited = new HashSet<>();
-        this.declined = new HashSet<>();
+        this.attendees = new HashMap<>();
+        this.invited = new HashMap<>();
+        this.declined = new HashMap<>();
     }
 
 
@@ -101,29 +110,29 @@ public class Event implements event {
 
     @Override
     public List<String> getEventAttendees() {
-        return new ArrayList<>(attendees);
+        return new ArrayList<>(attendees.keySet());
     }
 
     @Override
     public List<String> getEventInvited() {
-        return new ArrayList<>(invited);
+        return new ArrayList<>(invited.keySet());
     }
 
     @Override
     public void invite(String userID) {
-        invited.add(userID);
+        invited.put(userID,true);
     }
 
     @Override
     public void removeParticipant(String userID) {
-        if (attendees.contains(userID)) attendees.remove(userID);
-        if (invited.contains(userID)) invited.remove(userID);
-        if (declined.contains(userID)) declined.remove(userID);
+        if (attendees.keySet().contains(userID)) attendees.remove(userID);
+        if (invited.keySet().contains(userID)) invited.remove(userID);
+        if (declined.keySet().contains(userID)) declined.remove(userID);
     }
 
     @Override
     public List<String> getEventDeclined() {
-        return new ArrayList<>(declined);
+        return new ArrayList<>(declined.keySet());
     }
 
     @NotNull
