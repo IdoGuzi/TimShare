@@ -6,26 +6,45 @@
     android:layout_height="match_parent"
     tools:context=".EventActivity">
 
+    <EditText
+        android:id="@+id/editTextTDescription"
+        android:layout_width="300dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="168dp"
+        android:layout_marginEnd="60dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Description"
+        android:textColor="#009688"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/saveButton"
         android:layout_width="190dp"
         android:layout_height="45dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="10dp"
+        android:layout_marginBottom="80dp"
         android:backgroundTint="#E6E5E5"
         android:lineSpacingExtra="10sp"
-        android:text="SAVEE"
+        android:text="SAVE"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#009688"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:iconTint="#2D2F31"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/cancleButton"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.953" />
+        app:layout_constraintTop_toBottomOf="@+id/endEventDateViewText"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/cancleButton"
@@ -33,83 +52,65 @@
         android:layout_height="45dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="205dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="80dp"
         android:backgroundTint="#E6E5E5"
         android:lineSpacingExtra="10sp"
-        android:text="CANCLE"
+        android:text="CANCEL"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#009688"
         android:textSize="14sp"
         android:textStyle="bold"
+        android:visibility="visible"
         app:iconTint="#F6FAF7"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.833"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/endEventTimeViewText"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <TextView
+        android:id="@+id/endEventTimeViewText"
+        android:layout_width="120dp"
+        android:layout_height="35dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="395dp"
+        android:layout_marginBottom="300dp"
+        android:text="12:30 PM"
+        android:textAlignment="center"
+        android:textColor="#009688"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.981" />
-
-    <TextView
-        android:id="@+id/startTextView3"
-        android:layout_width="90dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="210dp"
-        android:layout_marginEnd="20dp"
-        android:text="Location"
-        android:textAlignment="center"
-        android:textColor="#009688"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/EditTextTLocation"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/endTextView"
-        android:layout_width="90dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="155dp"
-        android:layout_marginEnd="20dp"
-        android:text="end"
-        android:textAlignment="center"
-        android:textColor="#009688"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/endEventDateViewText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/startEventDateViewText"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="35dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginTop="348dp"
+        android:layout_marginEnd="40dp"
         android:rotationX="0"
         android:text="startEventDateViewText"
         android:textColor="#009688"
-        app:layout_constraintBottom_toTopOf="@+id/endEventDateViewText"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/endEventDateViewText"
-        android:layout_width="230dp"
+        android:layout_width="200dp"
         android:layout_height="35dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="155dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginTop="395dp"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="300dp"
         android:text="endEventDateViewText"
         android:textColor="#009688"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <EditText
         android:id="@+id/EditTextTitle"
@@ -126,38 +127,37 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/startTextView"
-        android:layout_width="90dp"
+        android:id="@+id/startEventTimeViewText"
+        android:layout_width="120dp"
         android:layout_height="35dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="20dp"
-        android:text="Start"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="350dp"
+        android:layout_marginBottom="10dp"
+        android:text="12:00 PM"
         android:textAlignment="center"
         android:textColor="#009688"
         android:textSize="12sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/endTextView"
-        app:layout_constraintEnd_toStartOf="@+id/startEventDateViewText"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintBottom_toTopOf="@+id/endEventTimeViewText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/EditTextTLocation"
-        android:layout_width="230dp"
+        android:layout_width="300dp"
         android:layout_height="35dp"
-        android:layout_marginStart="130dp"
-        android:layout_marginTop="210dp"
-        android:layout_marginEnd="50dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="60dp"
+        android:layout_marginBottom="10dp"
         android:ems="10"
         android:inputType="textPersonName"
         android:text="Location"
         android:textColor="#009688"
         android:textSize="14sp"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTDescription"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

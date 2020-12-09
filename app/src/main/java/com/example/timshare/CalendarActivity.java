@@ -9,6 +9,7 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.CalendarView;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -23,6 +24,7 @@ public class CalendarActivity extends AppCompatActivity  {
     private SimpleDateFormat dateFormat;
     private String date;
     private Intent myIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,8 @@ public class CalendarActivity extends AppCompatActivity  {
                 startActivity(myIntent);
             }
         });
+
+
 
     }
 

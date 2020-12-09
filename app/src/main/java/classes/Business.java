@@ -63,7 +63,7 @@ public class Business implements user {
     }
 
     @Override
-    public List<String> getEventsIn(Date from, Date to) {
+    public List<event> getEventsIn(Date from, Date to) {
         return null;
     }
 
