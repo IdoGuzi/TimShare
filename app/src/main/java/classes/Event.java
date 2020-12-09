@@ -29,9 +29,7 @@ public class Event implements event {
         this.declined=new HashSet<>();
     }
 
-    public static Map<String, Object> toMap() {
-        return null;
-    }
+
 
 
     @Override

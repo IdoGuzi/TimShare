@@ -122,14 +122,12 @@ public class EventActivity extends AppCompatActivity {
                 startDatePickerDialog.show();
             }
         });
-
         endEventDateViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 endDatePickerDialog.show();
             }
         });
-
         startEventTimeViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -201,7 +199,7 @@ public class EventActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+                mDatabase.child("Users").child(uid).addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -234,15 +232,13 @@ public class EventActivity extends AppCompatActivity {
     }
     private void writeNewEvent(String ownerID, String eventName,String eventDescription,Date startingDate, Date endingDate) {
 
-        String key = mDatabase.child("posts").push().getKey();
+        DatabaseReference ref = mDatabase.getRef();
+        ref =ref.child("Events");
+        DatabaseReference eventRef=ref.push();
+        String key=eventRef.getKey();
         event myEvent = new Event(ownerID,key, eventName,eventDescription,startingDate,endingDate);
-        Map<String, Object> postValues =Event.toMap();
+        eventRef.setValue(myEvent);
 
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-event/" + ownerID+ "/" + key, postValues);
-
-        mDatabase.updateChildren(childUpdates);
     }
 
 
