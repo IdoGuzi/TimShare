@@ -108,7 +108,11 @@ public class EventActivity extends AppCompatActivity {
         myHourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         myMinute = calendar.get(Calendar.MINUTE);
 
-        startTime = endTime = myHourOfDay + ":" + myMinute;
+        startTime  = myHourOfDay + ":" + myMinute;
+        if(myHourOfDay==23)
+            endTime=00+ ":" + myMinute;
+        else
+            endTime = myHourOfDay + ":" + myMinute;
         startDate = endDate = myDay + "/" + myMonth + "/" + myYear;
         startEventTimeViewText.setText(startTime);
         startEventDateViewText.setText(startDate);
@@ -126,7 +130,6 @@ public class EventActivity extends AppCompatActivity {
                 startDatePickerDialog.show();
             }
         });
-
         endEventDateViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +137,6 @@ public class EventActivity extends AppCompatActivity {
                 endDatePickerDialog.show();
             }
         });
-
         startEventTimeViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +208,7 @@ public class EventActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+                mDatabase.child("Users").child(uid).addListenerForSingleValueEvent(
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -220,9 +222,8 @@ public class EventActivity extends AppCompatActivity {
                                             Toast.LENGTH_SHORT).show();
                                 } else {
                                     // Write new post
-                                    writeNewEvent(uid, eventName, Description, dateStart, dateEnd);
+                                    writeNewEvent(uid, eventName, Description,location, dateStart, dateEnd);
                                 }
-
                             }
 
                             @Override
@@ -237,16 +238,13 @@ public class EventActivity extends AppCompatActivity {
         });
     }
 
-    private void writeNewEvent(String ownerID, String eventName, String eventDescription, Date startingDate, Date endingDate) {
+    private void writeNewEvent(String ownerID, String eventName, String eventDescription,String eventLocation, Date startingDate, Date endingDate) {
+        DatabaseReference ref = mDatabase.getRef();
+        ref =ref.child("Events");
+        DatabaseReference eventRef=ref.push();
+        String key=eventRef.getKey();
+        event myEvent = new Event(ownerID,key, eventName,eventDescription,eventLocation,startingDate,endingDate);
+        eventRef.setValue(myEvent);
 
-        String key = mDatabase.child("posts").push().getKey();
-        event myEvent = new Event(ownerID, key, eventName, eventDescription, startingDate, endingDate);
-        Map<String, Object> postValues = Event.toMap();
-
-        Map<String, Object> childUpdates = new HashMap<>();
-        childUpdates.put("/posts/" + key, postValues);
-        childUpdates.put("/user-event/" + ownerID + "/" + key, postValues);
-
-        mDatabase.updateChildren(childUpdates);
     }
 }

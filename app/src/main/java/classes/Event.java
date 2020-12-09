@@ -1,5 +1,7 @@
 package classes;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -11,27 +13,23 @@ import interfaces.event;
 import interfaces.user;
 
 public class Event implements event {
-    private String eventID, eventName, eventDescription;
+    private String eventID, eventName, eventDescription, eventLocation;
     private Date eventStartingDate, eventEndingDate;
     private String ownerID;
     private Set<String> attendees, invited, declined;
 
 
-
-    public Event(String ownerID,String eventID, String eventName,String eventDescription,Date startingDate, Date endingDate) {
-        this.ownerID=ownerID;
-        this.eventID=eventID;
-        this.eventName=eventName;
-        this.eventDescription=eventDescription;
-        this.eventStartingDate=startingDate;
-        this.eventEndingDate=endingDate;
-        this.attendees=new HashSet<>();
-        this.invited=new HashSet<>();
-        this.declined=new HashSet<>();
-    }
-
-    public static Map<String, Object> toMap() {
-        return null;
+    public Event(String ownerID, String eventID, String eventName, String eventDescription,String eventLocation, Date startingDate, Date endingDate) {
+        this.ownerID = ownerID;
+        this.eventID = eventID;
+        this.eventName = eventName;
+        this.eventDescription = eventDescription;
+        this.eventLocation = eventLocation;
+        this.eventStartingDate = startingDate;
+        this.eventEndingDate = endingDate;
+        this.attendees = new HashSet<>();
+        this.invited = new HashSet<>();
+        this.declined = new HashSet<>();
     }
 
 
@@ -126,6 +124,13 @@ public class Event implements event {
     @Override
     public List<String> getEventDeclined() {
         return new ArrayList<>(declined);
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return eventName + '\n' + "location :"+eventLocation +"Description: "+ eventDescription + '\n' +
+                "Date: "+eventStartingDate.toString()+"-"+eventEndingDate.toString();
     }
 
     /*

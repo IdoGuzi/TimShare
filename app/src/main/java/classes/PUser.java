@@ -20,18 +20,21 @@ import java.util.Set;
 import interfaces.event;
 import interfaces.user;
 
-public class PUser implements user{
+public class PUser implements user {
     private String Email;
     private String userName;
     private Set<String> friends;
     private Set<String> events;
 
 
-    public PUser(String email,String name){
-        this.Email=email;
-        this.userName=name;
+    public PUser(String email, String name) {
+        this.Email = email;
+        this.userName = name;
         friends = new HashSet<>();
         events = new HashSet<>();
+    }
+
+    public PUser() {
     }
 
 
@@ -42,7 +45,7 @@ public class PUser implements user{
 
     @Override
     public void setEmail(String email) {
-        Email=email;
+        Email = email;
     }
 
     @Override
@@ -52,8 +55,9 @@ public class PUser implements user{
 
     @Override
     public void setUserName(String name) {
-        userName=name;
+        userName = name;
     }
+
     /*
     @Override
     public Date getBirthday() {
@@ -98,19 +102,19 @@ public class PUser implements user{
     public List<event> getEventsIn(Date from, Date to) {
         List<event> ev = new ArrayList<>();
         DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
-        for (String s : events){
+        for (String s : events) {
             eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Event even = snapshot.getValue(Event.class);
-                    if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)){
+                    if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)) {
                         ev.add(even);
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-                    Log.e(error.toString(),"an error occurred");
+                    Log.e(error.toString(), "an error occurred");
                 }
             });
         }

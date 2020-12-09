@@ -1,5 +1,7 @@
 package interfaces;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.List;
 
 import java.util.Date;
@@ -109,6 +111,13 @@ public interface event {
      * @return a list of user that will not attend the event (but was invited).
      */
     public List<String> getEventDeclined();
+
+    /**
+     *
+     * @return event list as string
+     */
+    @NotNull
+    public String toString();
 
     /*
     /**
