@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import interfaces.event;
@@ -16,8 +17,9 @@ public class Event implements event {
     private Set<String> attendees, invited, declined;
 
 
-    public Event(String ownerID, String eventName,String eventDescription,Date startingDate, Date endingDate) {
+    public Event(String ownerID,String eventID, String eventName,String eventDescription,Date startingDate, Date endingDate) {
         this.ownerID=ownerID;
+        this.eventID=eventID;
         this.eventName=eventName;
         this.eventDescription=eventDescription;
         this.eventStartingDate=startingDate;
@@ -27,6 +29,9 @@ public class Event implements event {
         this.declined=new HashSet<>();
     }
 
+    public static Map<String, Object> toMap() {
+        return null;
+    }
 
 
     @Override
