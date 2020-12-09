@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.sql.Date;
 import java.util.Calendar;
 
-public class CalendarActivity extends AppCompatActivity  {
+public class CalendarActivity extends AppCompatActivity {
 
     private CalendarView myCalender;
     private TextView dateTimeDisplay;
@@ -29,19 +30,19 @@ public class CalendarActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_calendar);
-        myCalender=findViewById(R.id.calendarView);
-        dateTimeDisplay=findViewById(R.id.dateView);
+        myCalender = findViewById(R.id.calendarView);
+        dateTimeDisplay = findViewById(R.id.dateView);
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat(" MMM , yyyy");
         date = dateFormat.format(calendar.getTime());
         dateTimeDisplay.setText(date);
 
-        FloatingActionButton addEventBtn=findViewById(R.id.addEventButton);
+        FloatingActionButton addEventBtn = findViewById(R.id.addEventButton);
         myCalender.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String Date=dayOfMonth+"-"+(month+1)+"-"+year;
-                myIntent=new Intent(CalendarActivity.this, DayActivity.class);
+                String Date = dayOfMonth + "-" + (month + 1) + "-" + year;
+                myIntent = new Intent(CalendarActivity.this, DayActivity.class);
                 myIntent.putExtra("com.example.timshare.DATE", Date);
                 startActivity(myIntent);
             }
@@ -50,7 +51,7 @@ public class CalendarActivity extends AppCompatActivity  {
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              myIntent=new Intent(CalendarActivity.this, EventActivity.class);
+                myIntent = new Intent(CalendarActivity.this, EventActivity.class);
                 startActivity(myIntent);
             }
         });

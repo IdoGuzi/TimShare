@@ -8,7 +8,6 @@ public interface user {
 
 
     /**
-     *
      * @return the Email of the user as a string.
      */
     public String getEmail();
@@ -19,13 +18,13 @@ public interface user {
     public void setEmail(String email);
 
     /**
-     *
      * @return the UserName as a string
      */
     public String getUserName();
 
     /**
      * change the name of the user.
+     *
      * @param name - the new name for the user.
      */
     public void setUserName(String name);
@@ -45,7 +44,6 @@ public interface user {
     //public void setBirthday(Date d);
 
     /**
-     *
      * @return - the list of all the user friends IDs.
      */
     public List<String> getFriends();
@@ -60,27 +58,31 @@ public interface user {
 
     /**
      * changed
+     *
      * @return all the event IDs of this user.
      */
     public List<String> getEvents();
 
     /**
      * get all the event between the dates.
+     *
      * @param from - the date to start search on.
-     * @param to - the date to end search on.
+     * @param to   - the date to end search on.
      * @return - a list of all the events between the dates.
      */
-    public List<String> getEventsIn(Date from, Date to);
+    public List<event> getEventsIn(Date from, Date to);
 
     /**
      * assign new event for the user
      * note: need to alert on collisions.
+     *
      * @param e - a new event of the user.
      */
     public void addEvent(event e);
 
     /**
      * remove an event from the user calender.
+     *
      * @param eventID
      */
     public void removeEvent(String eventID);

@@ -19,15 +19,18 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public class EventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener  {
+public class EventActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
-    private  static  final String TAG ="EventActivity";
+    private static final String TAG = "EventActivity";
+
+    private FirebaseDatabase db = FirebaseDatabase.getInstance();
 
     private TextView startEventDateViewText, endEventDateViewText;
     private EditText editTextEventName, editTextTLocation;
@@ -35,16 +38,23 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
     private Button cancelBtn, saveBtn;
     //private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseAuth fAuth;
-    private boolean flag=false;
+    private boolean flag = false;
 
     private DatePickerDialog.OnDateSetListener sDatePickerDialogListener;
     private DatePickerDialog.OnDateSetListener eDatePickerDialogListener;
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
+
+        /*
+        DatabaseReference fdb = db.getReference();
+        fdb.child("Events").child(eventID).setValue(ven);
+        fdb.child("Users").child(ven.getOwnerID).addEvent(eventID)
+
+         */
 
         startEventDateViewText = findViewById(R.id.startEventDateViewText);
         endEventDateViewText = findViewById(R.id.endEventDateViewText);
@@ -61,12 +71,12 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                showDatePickerDialog(year,month,day);
-                if(flag) {
+                showDatePickerDialog(year, month, day);
+                if (flag) {
                     String date = (myMonth + 1) + "/" + myday + "/" + myYear;
                     startEventDateViewText.setText(date);
                 }
-                flag=false;
+                flag = false;
             }
         });
 
@@ -77,8 +87,8 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
                 year = calendar.get(Calendar.YEAR);
                 month = calendar.get(Calendar.MONTH);
                 day = calendar.get(Calendar.DAY_OF_MONTH);
-                showDatePickerDialog(year,month,day);
-                String date=(myMonth+1)+"/"+myday+"/"+myYear;
+                showDatePickerDialog(year, month, day);
+                String date = (myMonth + 1) + "/" + myday + "/" + myYear;
                 endEventDateViewText.setText(date);
 
             }
@@ -107,14 +117,15 @@ public class EventActivity extends AppCompatActivity implements DatePickerDialog
         });
 
     }
-    private void showDatePickerDialog(int year,int month,int day){
-        DatePickerDialog datePickerDialog=new DatePickerDialog(this,this,year,month,day);
+
+    private void showDatePickerDialog(int year, int month, int day) {
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, this, year, month, day);
         datePickerDialog.show();
     }
 
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-        String date = ( month + 1) + "/" + dayOfMonth + "/" + dayOfMonth;
+        String date = (month + 1) + "/" + dayOfMonth + "/" + dayOfMonth;
         startEventDateViewText.setText(date);
 
     }

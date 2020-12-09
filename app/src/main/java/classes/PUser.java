@@ -1,6 +1,16 @@
 package classes;
 
 
+import android.util.Log;
+
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
@@ -85,22 +95,37 @@ public class PUser implements user{
     }
 
     @Override
-    public List<String> getEventsIn(Date from, Date to) {
-        List<String> ev = new ArrayList<>();
+    public List<event> getEventsIn(Date from, Date to) {
+        List<event> ev = new ArrayList<>();
+        DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
         for (String s : events){
-            //get the event from database to check it
+            eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    Event even = snapshot.getValue(Event.class);
+                    if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)){
+                        ev.add(even);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Log.e(error.toString(),"an error occurred");
+                }
+            });
         }
         return ev;
     }
 
+
     @Override
     public void addEvent(event e) {
-
+        events.add(e.getEventID());
     }
 
     @Override
     public void removeEvent(String eventID) {
-
+        events.remove(eventID);
     }
     /*
     @Override
