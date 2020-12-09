@@ -77,7 +77,7 @@ public class Login extends AppCompatActivity {
                             startActivity(new Intent(getApplicationContext(), CalendarActivity.class));
                         } else {
                             Toast.makeText(Login.this, "Error" + Objects.requireNonNull(task.getException()).getMessage(), Toast.LENGTH_SHORT).show();
-                            ProgressBar.setVisibility(View.GONE);
+//                            ProgressBar.setVisibility(View.GONE);
                         }
                     }
                 });
@@ -90,6 +90,59 @@ public class Login extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), SignUp.class));
             }
         });
+
+//        passReset.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//
+//            public void onClick(View v) {
+//                EditText resetMail = new EditText(v.getContext());
+//
+//
+//                String email = resetMail.getText().toString().trim();
+//
+//
+//                if (TextUtils.isEmpty(email)) {
+//
+//                    Toast.makeText(getApplication(), "Enter your registered email id", Toast.LENGTH_SHORT).show();
+//
+//                    return;
+//
+//                }
+//
+//
+//                ProgressBar.setVisibility(View.VISIBLE);
+//
+//
+//                fAuth.sendPasswordResetEmail(email)
+//
+//
+//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+//
+//                            @Override
+//
+//                            public void onComplete(@NonNull Task<Void> task) {
+//
+//                                if (task.isSuccessful()) {
+//
+//                                    Toast.makeText(Login.this, "We have sent you instructions to reset your password!", Toast.LENGTH_SHORT).show();
+//
+//                                } else {
+//
+//                                    Toast.makeText(Login.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+//
+//                                }
+//
+//
+//                                ProgressBar.setVisibility(View.GONE);
+//
+//                            }
+//
+//                        });
+//
+//            }
+//
+//        });
 
         passReset.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +179,7 @@ public class Login extends AppCompatActivity {
 
                     }
                 });
+                passwordResetDialog.create().show();
             }
         });
     }

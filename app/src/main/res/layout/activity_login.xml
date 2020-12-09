@@ -55,7 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.615" />
+        app:layout_constraintVertical_bias="0.666" />
 
     <TextView
         android:id="@+id/signIn"
@@ -80,8 +80,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/Loginbtn"
-        app:layout_constraintVertical_bias="0.575" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.912" />
 
     <TextView
         android:id="@+id/CreateText"
@@ -103,15 +103,15 @@
         android:layout_height="wrap_content"
         android:text="Forget password?"
         android:textColor="#673AB7"
-        app:layout_constraintBottom_toTopOf="@+id/progressBar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/CreateText"
-        app:layout_constraintVertical_bias="0.184" />
+        app:layout_constraintVertical_bias="0.133" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/startEventDateViewText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="TimShare"
