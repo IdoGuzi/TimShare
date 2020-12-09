@@ -1,5 +1,6 @@
 package com.example.timshare;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -18,15 +19,32 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.BreakIterator;
+import java.text.ParseException;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
+
+import classes.Event;
+import classes.PUser;
+import interfaces.event;
+import interfaces.user;
 
 
 public class EventActivity extends AppCompatActivity {
@@ -43,11 +61,12 @@ public class EventActivity extends AppCompatActivity {
     private FirebaseAuth fAuth;
 
     private Calendar calendar;
+
     private String startDate, endDate, endTime, startTime, location, eventName, Description;
     private DatePickerDialog startDatePickerDialog, endDatePickerDialog;
     private TimePickerDialog startTimePickerDialog, endTimePickerDialog;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
-
+    private Date dateStart, dateEnd;
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,10 +74,13 @@ public class EventActivity extends AppCompatActivity {
         setContentView(R.layout.activity_event);
 
 
-        DatabaseReference fdb = database.getReference();
-        FirebaseAuth fAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+      /*  FirebaseAuth fAuth = FirebaseAuth.getInstance();
         FirebaseUser fbuser = fAuth.getCurrentUser();
-        String userId = fbuser.getUid();
+
+        String userId=fbuser.getUid();
+        fdb= fdb.child(fbuser.getUid());
+
         /*
         fdb.child("Events").child(eventID).setValue(ven);
         fdb.child("Users").child(ven.getOwnerID).addEvent(eventID)
@@ -92,6 +114,9 @@ public class EventActivity extends AppCompatActivity {
         startEventDateViewText.setText(startDate);
         endEventTimeViewText.setText(endTime);
         endEventDateViewText.setText(endDate);
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final String uid = user.getUid();
 
         //time and date
         startEventDateViewText.setOnClickListener(new View.OnClickListener() {
@@ -169,18 +194,59 @@ public class EventActivity extends AppCompatActivity {
         saveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                assert user != null;
-                final String uid = user.getUid();
-                final FirebaseDatabase database = FirebaseDatabase.getInstance();
-                final DatabaseReference ref = database.getReference("Calendar Events").child(uid);
-                String key = ref.push().getKey();
+                //save the date
+                try {
+                    dateStart = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(startDate + " " + startTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                try {
+                    dateEnd = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(startDate + " " + startTime);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
 
+                mDatabase.child("users").child(uid).addListenerForSingleValueEvent(
+                        new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                // Get user value
+                                // [START_EXCLUDE]
+                                if (user == null) {
+                                    // User is null, error out
+                                    Log.e(TAG, "User " + uid + " is unexpectedly null");
+                                    Toast.makeText(EventActivity.this,
+                                            "Error: could not fetch user.",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    // Write new post
+                                    writeNewEvent(uid, eventName, Description, dateStart, dateEnd);
+                                }
 
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w(TAG, "getUser:onCancelled", databaseError.toException());
+                            }
+                        });
                 Intent myIntent = new Intent(EventActivity.this, CalendarActivity.class);
-                myIntent.putExtra("com.example.timshare.SAVEDDATA", "saved");
                 startActivity(myIntent);
             }
+
         });
+    }
+
+    private void writeNewEvent(String ownerID, String eventName, String eventDescription, Date startingDate, Date endingDate) {
+
+        String key = mDatabase.child("posts").push().getKey();
+        event myEvent = new Event(ownerID, key, eventName, eventDescription, startingDate, endingDate);
+        Map<String, Object> postValues = Event.toMap();
+
+        Map<String, Object> childUpdates = new HashMap<>();
+        childUpdates.put("/posts/" + key, postValues);
+        childUpdates.put("/user-event/" + ownerID + "/" + key, postValues);
+
+        mDatabase.updateChildren(childUpdates);
     }
 }
