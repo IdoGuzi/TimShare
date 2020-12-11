@@ -1,25 +1,25 @@
 package classes;
 
 public class Date {
-    private int year, month, day, hour ,min ,dayOfWeek, timeZone;
+    private int year, month, day, hour, min, dayOfWeek, timeZone;
 
-    public Date(){
-        year=0;
-        month=0;
-        day=0;
-        hour=0;
-        min=0;
-        dayOfWeek=0;
-        timeZone=0;
+    public Date() {
+        year = 0;
+        month = 0;
+        day = 0;
+        hour = 0;
+        min = 0;
+        dayOfWeek = 0;
+        timeZone = 0;
     }
 
-    public Date(int year, int month, int day){
-        this.year=year;
-        this.month=month;
-        this.day=day;
-        this.hour=0;
-        this.min=0;
-        this.dayOfWeek=0;
+    public Date(int year, int month, int day) {
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hour = 0;
+        this.min = 0;
+        this.dayOfWeek = 0;
     }
 
     public int getYear() {
