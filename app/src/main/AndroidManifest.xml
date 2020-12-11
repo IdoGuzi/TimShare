@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimShare">
-        <activity android:name=".DayActivity"></activity>
+        <activity android:name=".DayActivity" android:parentActivityName=".CalendarActivity"> </activity>
         <activity android:name=".SignUp" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".EventActivity" />

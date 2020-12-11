@@ -36,11 +36,11 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.BreakIterator;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import classes.Date;
 import classes.Event;
 import classes.PUser;
 import interfaces.event;
@@ -57,12 +57,13 @@ public class EventActivity extends AppCompatActivity {
     private EditText editTextEventName, editTextLocation, editTextDescription;
     private int myDay, myMonth, myYear, myHourOfDay, myMinute;
     private int endYear, endDay, endMonth, endHour, endMinute;
+    private int startYear,startMonth,startDay,startHour,startMin;
     private Button cancelBtn, saveBtn;
     private FirebaseAuth fAuth;
 
     private Calendar calendar;
 
-    private String startDate, endDate, endTime, startTime, location, eventName, Description;
+    private String startDate, endDate, endTime, startTime, location, eventName="My event", Description;
     private DatePickerDialog startDatePickerDialog, endDatePickerDialog;
     private TimePickerDialog startTimePickerDialog, endTimePickerDialog;
     private Date dateStart, dateEnd;
@@ -109,16 +110,20 @@ public class EventActivity extends AppCompatActivity {
         myHourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         myMinute = calendar.get(Calendar.MINUTE);
 
+       endYear= startYear= myYear;
+        startMonth=endMonth=myMonth;
+        startDay=endDay=myDay;
+        startHour=endHour=myHourOfDay;
+        startMin=endMinute=myMinute;
+
         startTime  = myHourOfDay + ":" + myMinute;
-        if(myHourOfDay==23)
-            endTime=00+ ":" + myMinute;
-        else
-            endTime = myHourOfDay + ":" + myMinute;
+        if(myHourOfDay!=23)
+            endHour=myHourOfDay+1;
         startDate = endDate = myDay + "/" + myMonth + "/" + myYear;
-        startEventTimeViewText.setText(startTime);
-        startEventDateViewText.setText(startDate);
-        endEventTimeViewText.setText(endTime);
-        endEventDateViewText.setText(endDate);
+        startEventTimeViewText.setText( myHourOfDay + ":" + myMinute);
+        startEventDateViewText.setText(myDay + "/" + myMonth + "/" + myYear);
+        endEventTimeViewText.setText( endHour + ":" + myMinute);
+        endEventDateViewText.setText(myDay + "/" + myMonth + "/" + myYear);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
@@ -127,7 +132,6 @@ public class EventActivity extends AppCompatActivity {
         startEventDateViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 startDatePickerDialog.show();
             }
         });
@@ -155,16 +159,35 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                startDate = dayOfMonth + "/" + (month+1) + "/" + year;
-                startEventDateViewText.setText(startDate);
+                startYear=year;
+                startMonth=month;
+                startDay=dayOfMonth;
+                if(endYear<startYear){
+                    endYear=year;
+                    endMonth=month;
+                    endDay=dayOfMonth;
+                }
+               else if((endMonth<startMonth)&&(endYear==startYear)){
+                    endYear=year;
+                    endMonth=month;
+                    endDay=dayOfMonth;
+                }
+                else if((endDay<startDay)&&(endMonth==startMonth)&&(endYear==startYear)){
+                    endYear=year;
+                    endMonth=month;
+                    endDay=dayOfMonth;
+                }
+                startEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                endEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
             }
         }, myYear, myMonth, myDay);
 
         startTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                startTime = hourOfDay + ":" + minute;
-                startEventTimeViewText.setText(startTime);
+                startHour=hourOfDay;
+                startMin=minute;
+                startEventTimeViewText.setText(hourOfDay + ":" + minute);
             }
         }, myHourOfDay, myMinute, true);
 
@@ -172,14 +195,35 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                endDate = dayOfMonth + "/" + (month+1) + "/" + year;
-                endEventDateViewText.setText(endDate);
+                endYear=year;
+                endMonth=month;
+                endDay=dayOfMonth;
+                if(endYear<startYear){
+                    startYear=year;
+                    startMonth=month;
+                    startDay=dayOfMonth;
+                }
+                else if((endMonth<startMonth)&&(endYear==startYear)){
+                    startYear=year;
+                    startMonth=month;
+                    startDay=dayOfMonth;
+                }
+                else if((endDay<startDay)&&(endMonth==startMonth)&&(endYear==startYear)) {
+                    startYear = year;
+                    startMonth = month;
+                    startDay = dayOfMonth;
+                }
+
+                startEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                endEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
             }
         }, myYear, myMonth, myDay);
 
         endTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                endHour=hourOfDay;
+                endMinute=minute;
                 endTime = hourOfDay + ":" + minute;
                 endEventTimeViewText.setText(endTime);
             }
@@ -198,16 +242,8 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save the date
-                try {
-                    dateStart = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(startDate + " " + startTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
-                try {
-                    dateEnd = new SimpleDateFormat("dd/MM/yyyy HH:mm").parse(startDate + " " + startTime);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                    dateStart =new Date(startYear,startMonth,startDay,startHour,startMin);
+                    dateEnd =new Date(endYear, endDay, endMonth, endHour, endMinute);
 
                 mDatabase.child("Users").child(uid).addListenerForSingleValueEvent(
                         new ValueEventListener() {
