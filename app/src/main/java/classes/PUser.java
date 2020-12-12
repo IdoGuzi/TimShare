@@ -121,17 +121,18 @@ public class PUser implements user {
                     System.out.println("start of quary:" +from.toString());
                     System.out.println("end of event:" +even.getEventEndingDate().toString());
                     System.out.println("end of quary:" +to.toString());
+/*
                     //end debug
                     if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)) {
                         ev.add(even);
                     }
-                }
 
+*/
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e(error.toString(), "an error occurred");
-                }
-            });
+
+                });
         }
         return ev;
     }

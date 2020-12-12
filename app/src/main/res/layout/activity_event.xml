@@ -14,8 +14,8 @@
         android:layout_marginTop="168dp"
         android:layout_marginEnd="60dp"
         android:ems="10"
+        android:hint="Description"
         android:inputType="textPersonName"
-        android:text="Description"
         android:textColor="#009688"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -117,8 +117,8 @@
         android:layout_width="413dp"
         android:layout_height="73dp"
         android:ems="10"
+        android:hint="Title"
         android:inputType="textPersonName"
-        android:text="Title"
         android:textAlignment="center"
         android:textColor="#009688"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,13 +151,15 @@
         android:layout_marginEnd="60dp"
         android:layout_marginBottom="10dp"
         android:ems="10"
+        android:hint="Location"
         android:inputType="textPersonName"
-        android:text="Location"
         android:textColor="#009688"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/editTextTDescription"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle"
+        app:layout_constraintVertical_bias="0.466" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

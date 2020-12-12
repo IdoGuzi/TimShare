@@ -41,6 +41,7 @@ public class DayActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_day);
         date_view = findViewById(R.id.date_view);
@@ -65,11 +66,8 @@ public class DayActivity extends AppCompatActivity {
 
 
         DatabaseReference ref = database.getReference();
-
         FirebaseUser user = users_data.getCurrentUser();
-
         ref = ref.child("Users").child(user.getUid());
-
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
