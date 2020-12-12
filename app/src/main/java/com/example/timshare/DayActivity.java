@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
@@ -69,6 +70,7 @@ public class DayActivity extends AppCompatActivity {
         ArrayList<String> eventsString = new ArrayList<>();
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DayActivity.this, android.R.layout.simple_list_item_1,eventsString);
         HashMap<String,String> id_event=new HashMap<>();
+        HashMap<String,event> events = new HashMap<>();
         list.setAdapter(arrayAdapter);
 
 
@@ -95,6 +97,7 @@ public class DayActivity extends AppCompatActivity {
                             if (even.getEventStartingDate().after(dateStart) && even.getEventEndingDate().before(dateEnd)) {
                                 arrayAdapter.add(even.toString());
                                 id_event.put(even.toString(),s);
+                                events.put(s,even);
                             }
                         }
                         @Override
@@ -125,9 +128,19 @@ public class DayActivity extends AppCompatActivity {
                 adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                         String eventId=id_event.get( arrayAdapter.getItem(position));
+                        String eventId=id_event.get( arrayAdapter.getItem(position));
+                        System.out.println(user.getUid());
+                        System.out.println(events.get(eventId).getEventOwnerID());
+                        if (user.getUid().equals(events.get(eventId).getEventOwnerID())){
+                            Toast.makeText(DayActivity.this, "owner deleting", Toast.LENGTH_SHORT).show();
+                            removeEvent(eventId,events.get(eventId));
+                        }else{
+                            Toast.makeText(DayActivity.this, "not owner", Toast.LENGTH_SHORT).show();
+                            removeUserFromEvent(user ,eventId,events.get(eventId));
 
-                          arrayAdapter.notifyDataSetChanged();
+                        }
+                        eventsString.remove(arrayAdapter.getItem(position));
+                        arrayAdapter.notifyDataSetChanged();
 
                     }});
                 adb.show();
@@ -142,6 +155,31 @@ public class DayActivity extends AppCompatActivity {
         String month = date.substring(0,date.indexOf('-'));
         date=date.substring(date.indexOf('-')+1);
         return new Date(Integer.parseInt(date),Integer.parseInt(month),Integer.parseInt(day));
+    }
+
+    private void removeEvent(String eventID,event e){
+        ArrayList<String> users = new ArrayList<>();
+        users.addAll(e.getEventAttendees());
+        System.out.println(e.getAttendees().toString());
+        users.addAll(e.getEventInvited());
+        users.addAll(e.getEventDeclined());
+        for (String user : users){
+            System.out.println(user);
+            DatabaseReference ref = database.getReference().child("Users").child(user).child("events").child(eventID);
+            ref.removeValue();
+        }
+        DatabaseReference ref = database.getReference().child("Users").child(e.getEventOwnerID()).child("events").child(eventID);
+        ref.removeValue();
+        ref = database.getReference().child("Events").child(eventID);
+        ref.removeValue();
+    }
+    private void removeUserFromEvent(FirebaseUser user,String eventID, event e){
+        DatabaseReference ref = database.getReference().child("Users").child(user.getUid()).child("events").child(eventID);
+        ref.removeValue();
+        ref = database.getReference().child("Events").child(eventID);
+        ref.child("attendees").child(user.getUid()).removeValue();
+        ref.child("invited").child(user.getUid()).removeValue();
+        ref.child("declined").child(user.getUid()).removeValue();
     }
 
 }

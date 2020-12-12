@@ -108,6 +108,7 @@ public class Event implements event {
         return ownerID;
     }
 
+
     public void setEventOwnerID(String oid){
         ownerID=oid;
     }
@@ -118,8 +119,23 @@ public class Event implements event {
     }
 
     @Override
+    public Map<String,Boolean> getAttendees(){
+        return attendees;
+    }
+
+    @Override
+    public void setAttendees(Map<String, Boolean> attendees) {
+        this.attendees = attendees;
+    }
+
+    @Override
     public List<String> getEventInvited() {
         return new ArrayList<>(invited.keySet());
+    }
+
+    @Override
+    public void setInvited(Map<String, Boolean> invited) {
+        this.invited = invited;
     }
 
     @Override
