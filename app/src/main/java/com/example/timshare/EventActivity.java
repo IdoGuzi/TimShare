@@ -110,7 +110,7 @@ public class EventActivity extends AppCompatActivity {
         myHourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
         myMinute = calendar.get(Calendar.MINUTE);
 
-       endYear= startYear= myYear;
+        endYear= startYear= myYear;
         startMonth=endMonth=myMonth;
         startDay=endDay=myDay;
         startHour=endHour=myHourOfDay;
@@ -119,11 +119,11 @@ public class EventActivity extends AppCompatActivity {
         startTime  = myHourOfDay + ":" + myMinute;
         if(myHourOfDay!=23)
             endHour=myHourOfDay+1;
-        startDate = endDate = myDay + "/" + myMonth + "/" + myYear;
+        //startDate = endDate = myDay + "/" + (myMonth+1) + "/" + myYear;
         startEventTimeViewText.setText( myHourOfDay + ":" + myMinute);
-        startEventDateViewText.setText(myDay + "/" + myMonth + "/" + myYear);
+        startEventDateViewText.setText(myDay + "/" + (myMonth+1) + "/" + myYear);
         endEventTimeViewText.setText( endHour + ":" + myMinute);
-        endEventDateViewText.setText(myDay + "/" + myMonth + "/" + myYear);
+        endEventDateViewText.setText(myDay + "/" + (myMonth+1) + "/" + myYear);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
@@ -168,7 +168,7 @@ public class EventActivity extends AppCompatActivity {
                     endMonth=month;
                     endDay=dayOfMonth;
                 }
-               else if((endMonth<startMonth)&&(endYear==startYear)){
+                else if((endMonth<startMonth)&&(endYear==startYear)){
                     endYear=year;
                     endMonth=month;
                     endDay=dayOfMonth;
@@ -244,8 +244,8 @@ public class EventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //save the date
-                    dateStart =new Date(startYear,startMonth,startDay,startHour,startMin);
-                    dateEnd =new Date(endYear,endMonth,endDay, endHour, endMinute);
+                dateStart =new Date(startYear,startMonth,startDay,startHour,startMin);
+                dateEnd =new Date(endYear,endMonth,endDay, endHour, endMinute);
 
                 mDatabase.child("Users").child(uid).addListenerForSingleValueEvent(
                         new ValueEventListener() {

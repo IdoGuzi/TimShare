@@ -80,7 +80,6 @@ public class DayActivity extends AppCompatActivity {
 
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DayActivity.this, android.R.layout.simple_list_item_1,eventsString);
                 list.setAdapter(arrayAdapter);
-
                 List<event> ev = new ArrayList<>();
                 DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
                 Iterator<String> itr =use.getEvents().iterator();
