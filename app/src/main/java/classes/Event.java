@@ -108,6 +108,10 @@ public class Event implements event {
         return ownerID;
     }
 
+    public void setEventOwnerID(String oid){
+        ownerID=oid;
+    }
+
     @Override
     public List<String> getEventAttendees() {
         return new ArrayList<>(attendees.keySet());

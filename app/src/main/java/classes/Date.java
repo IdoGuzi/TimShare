@@ -25,9 +25,35 @@ public class Date {
         this.year=year;
         this.month=month;
         this.day=day;
-        this.hour=0;
-        this.min=0;
+        this.hour=hour;
+        this.min=min;
         this.dayOfWeek=0;
+    }
+
+    public boolean before(Date d){
+        if (year<d.getYear()) {
+            return true;
+        }else if (year==d.getYear()){
+            if (month<d.getMonth()) {
+                return true;
+            }else if (month==d.getMonth()){
+                if (day<d.getDay()){
+                    return true;
+                }else if (day==d.getDay()){
+                    if (hour<d.getHour()){
+                        return true;
+                    }else if (hour==d.getHour()){
+                        if (min<=d.getMin()){
+                            return true;
+                        }else return false;
+                    }else return false;
+                }else return false;
+            }else return false;
+        }else return false;
+    }
+
+    public boolean after(Date d){
+        return !this.before(d);
     }
 
     public int getYear() {
@@ -84,5 +110,11 @@ public class Date {
 
     public void setTimeZone(int timeZone) {
         this.timeZone = timeZone;
+    }
+
+
+    @Override
+    public String toString(){
+        return year+"/"+month+"/"+day+" "+hour+":"+min;
     }
 }

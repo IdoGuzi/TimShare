@@ -2,6 +2,7 @@ package classes;
 
 
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import androidx.annotation.NonNull;
 
@@ -12,8 +13,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -111,29 +112,29 @@ public class PUser implements user {
     public List<event> getEventsIn(Date from, Date to) {
         List<event> ev = new ArrayList<>();
         DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
-        for (String s : events.keySet()) {
+        Iterator<String> itr =events.keySet().iterator();
+        while(itr.hasNext()) {
+            String s = itr.next();
             eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Event even = snapshot.getValue(Event.class);
-                    //for debug
-                    System.out.println("start of event:" +even.getEventStartingDate().toString());
-                    System.out.println("start of quary:" +from.toString());
-                    System.out.println("end of event:" +even.getEventEndingDate().toString());
-                    System.out.println("end of quary:" +to.toString());
-/*
-                    //end debug
+                    System.out.println("start of quary: "+ from.toString());
+                    System.out.println("start of event: "+ even.getEventStartingDate().toString());
+                    System.out.println("end of quary: "+ to.toString());
+                    System.out.println("end of event: "+ even.getEventEndingDate().toString());
                     if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)) {
+                        System.out.println("added event: "+even.toString());
                         ev.add(even);
                     }
-
-*/
+                }
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e(error.toString(), "an error occurred");
-
-                });
+                }
+            });
         }
+        System.out.println("finished: "+ev.size());
         return ev;
     }
 
@@ -164,5 +165,4 @@ public class PUser implements user {
     }
 
      */
-
 }

@@ -159,6 +159,7 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
                 startYear=year;
                 startMonth=month;
                 startDay=dayOfMonth;
@@ -177,8 +178,8 @@ public class EventActivity extends AppCompatActivity {
                     endMonth=month;
                     endDay=dayOfMonth;
                 }
-                startEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
-                endEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
+                endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
         }, myYear, myMonth, myDay);
 
@@ -195,6 +196,7 @@ public class EventActivity extends AppCompatActivity {
 
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                month++;
                 endYear=year;
                 endMonth=month;
                 endDay=dayOfMonth;
@@ -214,8 +216,8 @@ public class EventActivity extends AppCompatActivity {
                     startDay = dayOfMonth;
                 }
 
-                startEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
-                endEventDateViewText.setText(dayOfMonth + "/" + (month+1) + "/" + year);
+                startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
+                endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
         }, myYear, myMonth, myDay);
 
@@ -243,7 +245,7 @@ public class EventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //save the date
                     dateStart =new Date(startYear,startMonth,startDay,startHour,startMin);
-                    dateEnd =new Date(endYear, endDay, endMonth, endHour, endMinute);
+                    dateEnd =new Date(endYear,endMonth,endDay, endHour, endMinute);
 
                 mDatabase.child("Users").child(uid).addListenerForSingleValueEvent(
                         new ValueEventListener() {
@@ -260,6 +262,7 @@ public class EventActivity extends AppCompatActivity {
                                 } else {
                                     // Write new post
                                     //PUser user = dataSnapshot.getValue(PUser.class);
+                                    updatedFields();
                                     writeNewEvent(uid, eventName, Description,location, dateStart, dateEnd);
                                 }
                             }
@@ -284,5 +287,11 @@ public class EventActivity extends AppCompatActivity {
         event myEvent = new Event(ownerID,key, eventName,eventDescription,eventLocation,startingDate,endingDate);
         eventRef.setValue(myEvent);
         mDatabase.child("Users").child(ownerID).child("events").child(key).setValue(true);
+    }
+
+    private void updatedFields(){
+        eventName = editTextEventName.getText().toString().trim();
+        location = editTextLocation.getText().toString().trim();
+        Description = editTextDescription.getText().toString().trim();
     }
 }
