@@ -3,6 +3,7 @@ package interfaces;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Map;
 
 import classes.Date;
 
@@ -88,11 +89,17 @@ public interface event {
      */
     public List<String> getEventAttendees();
 
+    public void setAttendees(Map<String, Boolean> attendees);
+
+    public Map<String,Boolean> getAttendees();
+
     /**
      *
      * @return - all the invited users to the event.
      */
     public List<String> getEventInvited();
+
+    public void setInvited(Map<String, Boolean> invited);
 
     /**
      * invite a user to the event.
