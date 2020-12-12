@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,9 +23,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
+import classes.Date;
 import classes.Event;
 import classes.PUser;
 import interfaces.event;
@@ -51,58 +54,68 @@ public class DayActivity extends AppCompatActivity {
             date = getIntent().getExtras().getString("com.example.timshare.DATE");
             date_view.setText(date);
         }
+        dateStart = parser(date);
+        dateStart.setHour(0);
+        dateStart.setMin(0);
 
-        try {
-            dateStart = new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(date + " " + "00:00");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        try {
-            dateEnd = new SimpleDateFormat("dd-MM-yyyy HH:mm").parse(date + " " + "23:59");
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        dateEnd = parser(date);
+        dateEnd.setHour(23);
+        dateEnd.setMin(59);
 
 
 
         DatabaseReference ref = database.getReference();
         FirebaseUser user = users_data.getCurrentUser();
         ref = ref.child("Users").child(user.getUid());
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot s : snapshot.getChildren()) {
                     System.out.println("data" + s.getValue().getClass().toString());
                 }
                 PUser use = snapshot.getValue(PUser.class);
-                List<event> eventList = use.getEventsIn(dateStart, dateEnd);
+
+
                 ArrayList<String> eventsString = new ArrayList<>();
-                for (event e: eventList){
-                    eventsString.add(e.toString());
-                }
+
                 ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DayActivity.this, android.R.layout.simple_list_item_1,eventsString);
-
                 list.setAdapter(arrayAdapter);
-//                ArrayAdapter adapter = new ArrayAdapter<String>(this,,eventsString);
 
+                List<event> ev = new ArrayList<>();
+                DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
+                Iterator<String> itr =use.getEvents().iterator();
+                while(itr.hasNext()) {
+                    String s = itr.next();
+                    eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Event even = snapshot.getValue(Event.class);
+                            if (even.getEventStartingDate().after(dateStart) && even.getEventEndingDate().before(dateEnd)) {
+                                arrayAdapter.add(even.toString());
+                            }
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e(error.toString(), "an error occurred");
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(error.toString(),"error occurred");
+                Toast.makeText(DayActivity.this,"failed: ",Toast.LENGTH_LONG).show();
             }
         });
     }
 
-    /*
     private Date parser(String date){
-        String temp = date.substring(0,date.indexOf(' '));
-        String day = temp.substring(0,temp.indexOf('-'));
-        temp=temp.substring(0,temp.indexOf('-'));
-        String month = temp.substring(0,temp.indexOf('-'));
-        temp=temp.substring(0,temp.indexOf('-'));
-        return new Date(Integer.getInteger(temp),Integer.getInteger(month),Integer.getInteger(day));
+        String day = date.substring(0,date.indexOf('-'));
+        date=date.substring(date.indexOf('-')+1);
+        String month = date.substring(0,date.indexOf('-'));
+        date=date.substring(date.indexOf('-')+1);
+        return new Date(Integer.parseInt(date),Integer.parseInt(month),Integer.parseInt(day));
     }
 
-     */
 }
