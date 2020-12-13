@@ -1,13 +1,17 @@
 package com.example.timshare;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -61,6 +66,10 @@ public class DayActivity extends AppCompatActivity {
         dateEnd = parser(date);
         dateEnd.setHour(23);
         dateEnd.setMin(59);
+        ArrayList<String> eventsString = new ArrayList<>();
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DayActivity.this, android.R.layout.simple_list_item_1,eventsString);
+        HashMap<String,String> id_event=new HashMap<>();
+        list.setAdapter(arrayAdapter);
 
 
 
@@ -74,13 +83,6 @@ public class DayActivity extends AppCompatActivity {
                     System.out.println("data" + s.getValue().getClass().toString());
                 }
                 PUser use = snapshot.getValue(PUser.class);
-
-
-                ArrayList<String> eventsString = new ArrayList<>();
-
-                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(DayActivity.this, android.R.layout.simple_list_item_1,eventsString);
-                list.setAdapter(arrayAdapter);
-
                 List<event> ev = new ArrayList<>();
                 DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
                 Iterator<String> itr =use.getEvents().iterator();
@@ -92,6 +94,7 @@ public class DayActivity extends AppCompatActivity {
                             Event even = snapshot.getValue(Event.class);
                             if (even.getEventStartingDate().after(dateStart) && even.getEventEndingDate().before(dateEnd)) {
                                 arrayAdapter.add(even.toString());
+                                id_event.put(even.toString(),s);
                             }
                         }
                         @Override
@@ -100,6 +103,8 @@ public class DayActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+
             }
 
             @Override
@@ -108,6 +113,27 @@ public class DayActivity extends AppCompatActivity {
                 Toast.makeText(DayActivity.this,"failed: ",Toast.LENGTH_LONG).show();
             }
         });
+
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                AlertDialog.Builder adb=new AlertDialog.Builder(DayActivity.this);
+                adb.setTitle("Delete?");
+                adb.setMessage("Are you sure you want to delete " + arrayAdapter.getItem(position));
+                final int positionToRemove = position;
+                adb.setNegativeButton("Cancel", null);
+                adb.setPositiveButton("Ok", new AlertDialog.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                         String eventId=id_event.get( arrayAdapter.getItem(position));
+
+                          arrayAdapter.notifyDataSetChanged();
+
+                    }});
+                adb.show();
+                }
+            });
+
     }
 
     private Date parser(String date){
