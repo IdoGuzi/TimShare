@@ -117,6 +117,17 @@ public class DayActivity extends AppCompatActivity {
             }
         });
 
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent myIntent = new Intent(DayActivity.this, EditEventActivity.class);
+                myIntent.putExtra("com.example.timshare.EVENTID", id_event.get( arrayAdapter.getItem(position)));
+                startActivity(myIntent);
+                return true;
+            }
+        });
+
         list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

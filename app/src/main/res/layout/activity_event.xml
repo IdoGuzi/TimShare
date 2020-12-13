@@ -7,7 +7,7 @@
     tools:context=".EventActivity">
 
     <EditText
-        android:id="@+id/editTextTDescription"
+        android:id="@+id/editTextTDescription1"
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_marginStart="60dp"
@@ -113,7 +113,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <EditText
-        android:id="@+id/EditTextTitle"
+        android:id="@+id/EditTextTitle1"
         android:layout_width="413dp"
         android:layout_height="73dp"
         android:ems="10"
@@ -143,7 +143,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/EditTextTLocation"
+        android:id="@+id/EditTextTLocation1"
         android:layout_width="300dp"
         android:layout_height="35dp"
         android:layout_marginStart="60dp"
@@ -155,11 +155,11 @@
         android:inputType="textPersonName"
         android:textColor="#009688"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTDescription"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTDescription1"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle"
+        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle1"
         app:layout_constraintVertical_bias="0.466" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

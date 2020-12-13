@@ -83,6 +83,15 @@ public class Event implements event {
     }
 
     @Override
+    public String getEventLocation() {return this.eventLocation;
+    }
+
+    @Override
+    public void setEventLocation(String location) {this.eventLocation=location;
+
+    }
+
+    @Override
     public Date getEventStartingDate() {
         return this.eventStartingDate;
     }
@@ -158,8 +167,11 @@ public class Event implements event {
     @NotNull
     @Override
     public String toString() {
-        return eventName + '\n' + "location :"+eventLocation +"Description: "+ eventDescription + '\n' +
-                "Date: "+eventStartingDate.toString()+"-"+eventEndingDate.toString();
+        String ans= eventName + "\n";
+        if(!eventLocation.isEmpty())ans=ans+ "location :"+eventLocation+ "\n" ;
+        if(!eventDescription.isEmpty())ans=ans+"Description: "+ eventDescription + '\n';
+        ans=ans+"Date: "+eventStartingDate.toString()+"-"+eventEndingDate.toString();
+        return ans;
     }
 
     /*

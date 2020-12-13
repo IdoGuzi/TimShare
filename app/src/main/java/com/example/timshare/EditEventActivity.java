@@ -1,11 +1,13 @@
 package com.example.timshare;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -15,10 +17,15 @@ import android.widget.TimePicker;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import classes.Date;
+import classes.Event;
+import classes.PUser;
 
 public class EditEventActivity extends AppCompatActivity {
     private static final String TAG = "EventActivity";
@@ -39,6 +46,7 @@ public class EditEventActivity extends AppCompatActivity {
     private String eventID;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private FirebaseAuth users_data = FirebaseAuth.getInstance();
+    private Event myEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,23 +56,71 @@ public class EditEventActivity extends AppCompatActivity {
         endEventDateViewText = findViewById(R.id.endEventDateViewText);
         startEventTimeViewText = findViewById(R.id.startEventTimeViewText);
         endEventTimeViewText = findViewById(R.id.endEventTimeViewText);
-        editTextEventName = findViewById(R.id.EditTextTitle);
-        editTextLocation = findViewById(R.id.EditTextTLocation);
-        editTextDescription = findViewById(R.id.editTextTDescription);
+        editTextEventName = findViewById(R.id.EditTextTitle1);
+        editTextLocation = findViewById(R.id.EditTextTLocation1);
+        editTextDescription = findViewById(R.id.editTextTDescription1);
         cancelBtn = findViewById(R.id.cancleButton);
         saveBtn = findViewById(R.id.saveButton);
 
-        if (getIntent().hasExtra("com.example.timshare.DATE")) {
-            eventID = getIntent().getExtras().getString("com.example.timshare.DATE");
+        if (getIntent().hasExtra("com.example.timshare.EVENTID")) {
+            eventID = getIntent().getExtras().getString("com.example.timshare.EVENTID");
+            System.out.println(eventID);
         }
+
         DatabaseReference ref = database.getReference();
         FirebaseUser user = users_data.getCurrentUser();
         ref = ref.child("Users").child(user.getUid());
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                PUser use = snapshot.getValue(PUser.class);
+                DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
+                    eventRef.child(eventID).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            myEvent = snapshot.getValue(Event.class);
+                            System.out.println(myEvent.toString());
+
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            Log.e(error.toString(), "an error occurred");
+                        }
+                    });
+                }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e(error.toString(), "an error occurred");
+
+            }
+        });
+        editTextEventName.setText(myEvent.getEventName());
+        editTextLocation.setText(myEvent.getEventLocation());
+        editTextDescription.setText(myEvent.getEventDescription());
+        dateStart=myEvent.getEventStartingDate();
+        dateEnd=myEvent.getEventEndingDate();
+        System.out.println("helppppppp!");
+
+        startDay=dateStart.getDay();
+        startYear=dateStart.getYear();
+        startMonth=dateStart.getMonth();
+        startHour=dateStart.getHour();
+        startMin=dateStart.getMin();
+        startEventDateViewText.setText(startDay+"/"+startMonth+"/"+startYear);
+        startEventTimeViewText.setText(startHour+":"+startMin);
+        endDay=dateEnd.getDay();
+        endYear=dateEnd.getYear();
+        endMonth=dateEnd.getMonth();
+        endHour=dateEnd.getHour();
+        endMinute=dateEnd.getMin();
+        endEventDateViewText.setText( endDay+"/"+ endMonth+"/"+ endYear);
+        endEventTimeViewText.setText(endHour+":"+endMinute);
 
 
 
-
-        //time and date
+            //time and date
         startEventDateViewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -117,7 +173,7 @@ public class EditEventActivity extends AppCompatActivity {
                 startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
                 endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
-        }, myYear, myMonth, myDay);
+        },startYear, startMonth, startDay);
 
         startTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -126,7 +182,7 @@ public class EditEventActivity extends AppCompatActivity {
                 startMin=minute;
                 startEventTimeViewText.setText(hourOfDay + ":" + minute);
             }
-        }, myHourOfDay, myMinute, true);
+        }, startHour, startMin, true);
 
         endDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -155,7 +211,7 @@ public class EditEventActivity extends AppCompatActivity {
                 startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
                 endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
-        }, myYear, myMonth, myDay);
+        }, endYear, endMonth,endDay);
 
         endTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -165,7 +221,7 @@ public class EditEventActivity extends AppCompatActivity {
                 endTime = hourOfDay + ":" + minute;
                 endEventTimeViewText.setText(endTime);
             }
-        }, myHourOfDay, myMinute, true);
+        }, endHour,endMinute, true);
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override

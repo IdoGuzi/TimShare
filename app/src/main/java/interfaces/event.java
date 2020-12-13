@@ -52,6 +52,14 @@ public interface event {
      * @param description - new description of the event.
      */
     public void setEventDescription(String description);
+    /**
+     * @returm the event location
+     */
+    public String getEventLocation();
+    /**
+    * @param  location-new location to the event.
+    */
+    public void setEventLocation (String location );
 
     /**
      * @return the date of the event.
