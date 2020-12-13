@@ -59,16 +59,6 @@ public class EventActivity extends AppCompatActivity {
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-      /*  FirebaseAuth fAuth = FirebaseAuth.getInstance();
-        FirebaseUser fbuser = fAuth.getCurrentUser();
-
-        String userId=fbuser.getUid();
-        fdb= fdb.child(fbuser.getUid());
-
-        /*
-        fdb.child("Events").child(eventID).setValue(ven);
-        fdb.child("Users").child(ven.getOwnerID).addEvent(eventID)
-*/
 
 
         startEventDateViewText = findViewById(R.id.startEventDateViewText);
