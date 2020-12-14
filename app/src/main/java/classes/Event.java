@@ -13,9 +13,9 @@ public class Event implements event {
     private String eventID, eventName, eventDescription, eventLocation;
     private Date eventStartingDate, eventEndingDate;
     private String ownerID;
-    private Map<String,Boolean> attendees, invited, declined;
+    private Map<String, Boolean> attendees, invited, declined;
 
-    public Event(){
+    public Event() {
         this.ownerID = "";
         this.eventID = "";
         this.eventName = "";
@@ -28,7 +28,7 @@ public class Event implements event {
         this.declined = new HashMap<>();
     }
 
-    public Event(String ownerID, String eventID, String eventName, String eventDescription,String eventLocation, Date startingDate, Date endingDate) {
+    public Event(String ownerID, String eventID, String eventName, String eventDescription, String eventLocation, Date startingDate, Date endingDate) {
         this.ownerID = ownerID;
         this.eventID = eventID;
         this.eventName = eventName;
@@ -83,6 +83,17 @@ public class Event implements event {
     }
 
     @Override
+    public String getEventLocation() {
+        return this.eventLocation;
+    }
+
+    @Override
+    public void setEventLocation(String location) {
+        this.eventLocation = location;
+
+    }
+
+    @Override
     public Date getEventStartingDate() {
         return this.eventStartingDate;
     }
@@ -108,8 +119,9 @@ public class Event implements event {
         return ownerID;
     }
 
-    public void setEventOwnerID(String oid){
-        ownerID=oid;
+
+    public void setEventOwnerID(String oid) {
+        ownerID = oid;
     }
 
     @Override
@@ -118,13 +130,28 @@ public class Event implements event {
     }
 
     @Override
+    public Map<String, Boolean> getAttendees() {
+        return attendees;
+    }
+
+    @Override
+    public void setAttendees(Map<String, Boolean> attendees) {
+        this.attendees = attendees;
+    }
+
+    @Override
     public List<String> getEventInvited() {
         return new ArrayList<>(invited.keySet());
     }
 
     @Override
+    public void setInvited(Map<String, Boolean> invited) {
+        this.invited = invited;
+    }
+
+    @Override
     public void invite(String userID) {
-        invited.put(userID,true);
+        invited.put(userID, true);
     }
 
     @Override
@@ -142,8 +169,11 @@ public class Event implements event {
     @NotNull
     @Override
     public String toString() {
-        return eventName + '\n' + "location :"+eventLocation +"Description: "+ eventDescription + '\n' +
-                "Date: "+eventStartingDate.toString()+"-"+eventEndingDate.toString();
+        String ans = eventName + "\n";
+        if (!eventLocation.isEmpty()) ans = ans + "location :" + eventLocation + "\n";
+        if (!eventDescription.isEmpty()) ans = ans + "Description: " + eventDescription + '\n';
+        ans = ans + "Date: " + eventStartingDate.toString() + "-" + eventEndingDate.toString();
+        return ans;
     }
 
     /*
