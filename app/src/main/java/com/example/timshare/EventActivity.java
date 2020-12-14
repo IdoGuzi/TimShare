@@ -37,7 +37,6 @@ public class EventActivity extends AppCompatActivity {
     private FirebaseDatabase db = FirebaseDatabase.getInstance();
     private TextView startEventDateViewText, endEventDateViewText, startEventTimeViewText, endEventTimeViewText;
     private EditText editTextEventName, editTextLocation, editTextDescription;
-    private int myDay, myMonth, myYear, myHourOfDay, myMinute;
     private int endYear, endDay, endMonth, endHour, endMinute;
     private int startYear,startMonth,startDay,startHour,startMin;
     private Button cancelBtn, saveBtn;
@@ -76,26 +75,20 @@ public class EventActivity extends AppCompatActivity {
         Description = editTextDescription.getText().toString().trim();
 
         calendar = Calendar.getInstance();
-        myYear = calendar.get(Calendar.YEAR);
-        myMonth = calendar.get(Calendar.MONTH);
-        myDay = calendar.get(Calendar.DAY_OF_MONTH);
-        myHourOfDay = calendar.get(Calendar.HOUR_OF_DAY);
-        myMinute = calendar.get(Calendar.MINUTE);
+        endYear= startYear= calendar.get(Calendar.YEAR);
+        startMonth=endMonth = calendar.get(Calendar.MONTH);
+        startDay=endDay = calendar.get(Calendar.DAY_OF_MONTH);
+        startHour=endHour = calendar.get(Calendar.HOUR_OF_DAY);
+        startMin=endMinute = calendar.get(Calendar.MINUTE);
 
-        endYear= startYear= myYear;
-        startMonth=endMonth=myMonth;
-        startDay=endDay=myDay;
-        startHour=endHour=myHourOfDay;
-        startMin=endMinute=myMinute;
 
-        startTime  = myHourOfDay + ":" + myMinute;
-        if(myHourOfDay!=23)
-            endHour=myHourOfDay+1;
+        startTime  =startHour + ":" + startMin;
+        if(endHour!=23) endHour++;
         //startDate = endDate = myDay + "/" + (myMonth+1) + "/" + myYear;
-        startEventTimeViewText.setText( myHourOfDay + ":" + myMinute);
-        startEventDateViewText.setText(myDay + "/" + (myMonth+1) + "/" + myYear);
-        endEventTimeViewText.setText( endHour + ":" + myMinute);
-        endEventDateViewText.setText(myDay + "/" + (myMonth+1) + "/" + myYear);
+        startEventTimeViewText.setText( startTime);
+        startEventDateViewText.setText(startDay + "/" + (startMonth+1) + "/" + startYear);
+        endEventTimeViewText.setText( endHour + ":" + endMinute);
+        endEventDateViewText.setText(endDay + "/" + (endMonth+1) + "/" + endYear);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
@@ -153,7 +146,7 @@ public class EventActivity extends AppCompatActivity {
                 startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
                 endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
-        }, myYear, myMonth, myDay);
+        }, startYear,startMonth,startDay);
 
         startTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -162,7 +155,7 @@ public class EventActivity extends AppCompatActivity {
                 startMin=minute;
                 startEventTimeViewText.setText(hourOfDay + ":" + minute);
             }
-        }, myHourOfDay, myMinute, true);
+        }, startHour, startMin, true);
 
         endDatePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
@@ -191,7 +184,7 @@ public class EventActivity extends AppCompatActivity {
                 startEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
                 endEventDateViewText.setText(dayOfMonth + "/" + (month) + "/" + year);
             }
-        }, myYear, myMonth, myDay);
+        }, endYear, endMonth, endDay);
 
         endTimePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
             @Override
@@ -201,7 +194,7 @@ public class EventActivity extends AppCompatActivity {
                 endTime = hourOfDay + ":" + minute;
                 endEventTimeViewText.setText(endTime);
             }
-        }, myHourOfDay, myMinute, true);
+        }, endHour, endMinute, true);
 
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
