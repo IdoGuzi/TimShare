@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.Objects;
 
@@ -131,5 +132,18 @@ public class Login extends AppCompatActivity {
                 passwordResetDialog.create().show();
             }
         });
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        FirebaseUser currentUser = fAuth.getCurrentUser();
+        if (currentUser != null) {
+            Intent calendarIntent = new Intent(Login.this,CalendarActivity.class);
+            calendarIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(calendarIntent);
+            finish();
+        }
     }
 }
