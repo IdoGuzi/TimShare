@@ -47,6 +47,7 @@ public class SearchActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        System.out.println(referenceEvents.toString());
         referenceEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
