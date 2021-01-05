@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,7 +33,8 @@ public class CalendarActivity extends AppCompatActivity {
     private Intent myIntent;
     private FirebaseAuth fAuth;
     private DatabaseReference UsersRef;
-    Button profileBtn, logoutBtn;
+    private  Button profileBtn, logoutBtn;
+    private ImageButton searchBtn;
 
 
 
@@ -42,15 +44,21 @@ public class CalendarActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_calendar);
         myCalender = findViewById(R.id.calendarView);
-        dateTimeDisplay = findViewById(R.id.dateView);
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat(" MMM , yyyy");
-        date = dateFormat.format(calendar.getTime());
-        dateTimeDisplay.setText(date);
         profileBtn = findViewById(R.id.profilebtn);
         logoutBtn = findViewById(R.id.logoutbtn);
         fAuth = FirebaseAuth.getInstance();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
+        searchBtn=findViewById(R.id.SearchButton);
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent searchIntent=new Intent(CalendarActivity.this,SearchActivity.class);
+                startActivity(searchIntent);
+            }
+        });
 
 
 
