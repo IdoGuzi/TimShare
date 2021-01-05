@@ -76,7 +76,7 @@ public class SearchActivity extends AppCompatActivity {
         }));
         AdapterEvent eventAdapter=new AdapterEvent(eventArrayList);
         AdapterUser userAdapter=new AdapterUser(userArrayList);
-        System.out.println(userArrayList.size());
+        System.out.println(eventArrayList.size() +" "+userArrayList.size());
         concatenated.addAdapter(userAdapter);
         concatenated.addAdapter(eventAdapter);
         recyclerView.setAdapter(concatenated);
@@ -105,8 +105,8 @@ public class SearchActivity extends AppCompatActivity {
              }
              if(u.getEmail().toLowerCase().equals(text.toLowerCase()));
          }
-         AdapterEvent eventAdapter=new AdapterEvent(eventArrayList);
-         AdapterUser userAdapter=new AdapterUser(userArrayList);
+         AdapterEvent eventAdapter=new AdapterEvent(eventSearchList);
+         AdapterUser userAdapter=new AdapterUser(userSearchList);
         concatenated.addAdapter(userAdapter);
         concatenated.addAdapter(eventAdapter);
         recyclerView.setAdapter(concatenated);
