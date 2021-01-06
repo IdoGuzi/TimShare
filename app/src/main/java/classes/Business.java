@@ -158,4 +158,9 @@ public class Business implements user {
 
      */
 
+    @Override
+    public String toString(){
+        return "name: " + userName + ", Email: " + Email;
+    }
+
 }

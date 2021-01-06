@@ -2,7 +2,10 @@ package com.example.timshare;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -25,6 +28,16 @@ public class ProfileActivity extends AppCompatActivity {
 //        String name = fAuth.toString();
         username.setText(name);
         usermail.setText(email);
+
+        Button b = findViewById(R.id.friends);
+        b.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent friends_list = new Intent(ProfileActivity.this, UserList.class);
+                friends_list.putStringArrayListExtra("userIDs",/*need to pass arraylist of string)*/);
+                startActivity(new Intent(getApplicationContext(), UserList.class));
+            }
+        });
 
 
     }
