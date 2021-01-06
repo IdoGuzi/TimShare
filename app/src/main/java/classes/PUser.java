@@ -165,4 +165,9 @@ public class PUser implements user {
     }
 
      */
+
+    @Override
+    public String toString(){
+        return "name: " + userName + ", Email: " + Email;
+    }
 }
