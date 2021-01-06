@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import interfaces.user;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
-    ArrayList<user> userArrayList;
+    private ArrayList<user> userArrayList;
     public AdapterUser(ArrayList<user> userArrayList){
         this.userArrayList=userArrayList;
     }

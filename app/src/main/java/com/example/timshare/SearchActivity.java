@@ -1,12 +1,13 @@
 package com.example.timshare;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.ConcatAdapter;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,7 +29,7 @@ public class SearchActivity extends AppCompatActivity {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private DatabaseReference referenceEvents,referenceUser;
     private ArrayList<Event> eventArrayList=new ArrayList<>();
-    private  ArrayList<user> userArrayList=new ArrayList<>();
+    private  ArrayList<user> userArrayList=new ArrayList<>();;
     private ConcatAdapter concatenated;
 
     @Override
@@ -38,78 +39,90 @@ public class SearchActivity extends AppCompatActivity {
 
         searchView=findViewById(R.id.searchTextView);
         recyclerView=findViewById(R.id.recyclerView);
-        referenceEvents= FirebaseDatabase.getInstance().getReference().child("Events");
-        referenceUser= FirebaseDatabase.getInstance().getReference().child("Users");
-        ConcatAdapter concatenated = new ConcatAdapter();
+        referenceEvents= database.getReference().child("Events");
+        referenceUser= database.getReference().child("Users");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                search(query);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                search(newText);
+                return true;
+            }
+        });
+
 
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        System.out.println(referenceEvents.toString());
         referenceEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot ds:snapshot.getChildren())
-                    {
-                        eventArrayList.add(ds.getValue(Event.class));
-                    }
+                for(DataSnapshot ds:snapshot.getChildren())
+                {
+                    eventArrayList.add(ds.getValue(Event.class));
+                    System.out.println("e"+eventArrayList.size());
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(error.toString(), "an error occurred");
+                Toast.makeText(SearchActivity.this,error.getMessage(),Toast.LENGTH_SHORT);
+
             }
         });
-        referenceUser.addValueEventListener((new ValueEventListener() {
+        referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                     for(DataSnapshot ds:snapshot.getChildren())
                     {
                         userArrayList.add(ds.getValue(PUser.class));
+                        System.out.println("u"+userArrayList.size());
                     }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(error.toString(), "an error occurred");
+                Toast.makeText(SearchActivity.this,error.getMessage(),Toast.LENGTH_SHORT);
 
             }
-        }));
-        AdapterEvent eventAdapter=new AdapterEvent(eventArrayList);
-        AdapterUser userAdapter=new AdapterUser(userArrayList);
-        System.out.println(eventArrayList.size() +" "+userArrayList.size());
-        concatenated.addAdapter(userAdapter);
-        concatenated.addAdapter(eventAdapter);
-        recyclerView.setAdapter(concatenated);
+        });
     }
 
-    private void search(String text){
-         ArrayList<Event> eventSearchList=new ArrayList<>();
-         ArrayList<user> userSearchList=new ArrayList<>();
-         for(Event e:eventArrayList)
-         {
-             if(e.getEventName().toLowerCase().contains(text.toLowerCase()))
-             {
-                 eventSearchList.add(e);
-             }
-             if(e.getEventDescription().toLowerCase().contains(text.toLowerCase()))
-             {
-                 eventSearchList.add(e);
-             }
-             if(e.getEventLocation().toLowerCase().contains(text.toLowerCase()));
-         }
-         for(user u:userArrayList)
-         {
-             if(u.getUserName().toLowerCase().contains(text.toLowerCase()))
-             {
-                 userSearchList.add(u);
-             }
-             if(u.getEmail().toLowerCase().equals(text.toLowerCase()));
-         }
-         AdapterEvent eventAdapter=new AdapterEvent(eventSearchList);
-         AdapterUser userAdapter=new AdapterUser(userSearchList);
+    private void search(String text) {
+        ArrayList<Event> eventSearchList = new ArrayList<>();
+        ArrayList<user> userSearchList = new ArrayList<>();
+        for (Event e : eventArrayList) {
+            if (e.getEventName().toLowerCase().contains(text.toLowerCase())) {
+                eventSearchList.add(e);
+            }
+            if (e.getEventDescription().toLowerCase().contains(text.toLowerCase())) {
+                eventSearchList.add(e);
+            }
+            if (e.getEventLocation().toLowerCase().contains(text.toLowerCase()))
+            {
+             eventSearchList.add(e);
+            }
+        }
+        for (user u : userArrayList) {
+            if (u.getUserName().toLowerCase().contains(text.toLowerCase())) {
+                userSearchList.add(u);
+            }
+            if (u.getEmail().toLowerCase().equals(text.toLowerCase()))
+            {
+                userSearchList.add(u);
+            }
+        }
+        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList);
+        AdapterUser userAdapter = new AdapterUser(userSearchList);
+        concatenated = new ConcatAdapter();
         concatenated.addAdapter(userAdapter);
         concatenated.addAdapter(eventAdapter);
         recyclerView.setAdapter(concatenated);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
-}
+    }
