@@ -93,6 +93,7 @@ public class DayActivity extends AppCompatActivity {
                     eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (!snapshot.exists()) return;
                             Event even = snapshot.getValue(Event.class);
                             if (even.getEventStartingDate().after(dateStart) && even.getEventEndingDate().before(dateEnd)) {
                                 arrayAdapter.add(even.toString());
