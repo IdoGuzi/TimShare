@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimShare">
         <activity android:name=".BusinessSignUp"></activity>
+        <activity android:name=".SearchActivity"></activity>
         <activity android:name=".SetupActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".EditEventActivity" />

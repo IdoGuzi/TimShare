@@ -100,7 +100,7 @@
         android:layout_marginTop="25dp"
         android:backgroundTint="@color/teal_700"
         android:text="Create account"
-        app:layout_constraintBottom_toTopOf="button"
+        app:layout_constraintBottom_toTopOf="@id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.114"
         app:layout_constraintStart_toStartOf="parent"
