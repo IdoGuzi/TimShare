@@ -3,22 +3,16 @@ package com.example.timshare;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.storage.StorageManager;
-//import android.support.annotation.NonNull;
-//import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.transition.CircularPropagation;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.timshare.CalendarActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -38,6 +32,9 @@ import com.theartofdev.edmodo.cropper.CropImageView;
 import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+
+//import android.support.annotation.NonNull;
+//import android.support.v7.app.AppCompatActivity;
 
 public class SetupActivity extends AppCompatActivity {
     private EditText UserName, FullName, CountryName;
@@ -98,9 +95,6 @@ public class SetupActivity extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     if (dataSnapshot.hasChild("profileimage")) {
                         String image = dataSnapshot.child("profileimage").getValue().toString();
-                        System.out.println("**************************" +
-                                image +
-                                "*******************************");
                         Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
                     } else {
                         Toast.makeText(SetupActivity.this, "Please select profile image first.", Toast.LENGTH_SHORT).show();
@@ -113,21 +107,6 @@ public class SetupActivity extends AppCompatActivity {
 
             }
         });
-
-//        UsersRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    String image = snapshot.child("profileimage").getValue().toString();
-//                    Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
     }
 
 
@@ -156,8 +135,6 @@ public class SetupActivity extends AppCompatActivity {
                 Uri resultUri = result.getUri();
 
                 StorageReference filePath = UserProfileImageRef.child(currentUserID + ".jpg");
-
-
 
                 filePath.putFile(resultUri).addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -192,23 +169,6 @@ public class SetupActivity extends AppCompatActivity {
                                             });
                                 }
                             });
-//                            UsersRef.child("profileimage").setValue(downloadUrl)
-//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task<Void> task) {
-//                                            if (task.isSuccessful()) {
-//                                                Intent selfIntent = new Intent(SetupActivity.this, SetupActivity.class);
-//                                                startActivity(selfIntent);
-//
-//                                                Toast.makeText(SetupActivity.this, "Profile Image stored to Firebase Database Successfully", Toast.LENGTH_SHORT).show();
-//                                                loadingBar.dismiss();
-//                                            } else {
-//                                                String message = task.getException().getMessage();
-//                                                Toast.makeText(SetupActivity.this, "Error Occured: " + message, Toast.LENGTH_SHORT).show();
-//                                                loadingBar.dismiss();
-//                                            }
-//                                        }
-//                                    });
                         }
                     }
                 });
