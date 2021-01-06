@@ -5,7 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SignUp">
+    tools:context=".BusinessSignUp">
+
 
 
     <LinearLayout
@@ -13,6 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toTopOf="@id/Email_block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
@@ -23,14 +25,14 @@
             android:id="@+id/Name_Text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter a username"
+            android:text="Enter a business name"
             android:textSize="20dp" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/User_Name_Entry"
             android:layout_width="300dp"
             android:layout_height="70dp"
-            android:hint="User_Name" />
+            android:hint="Business_Name" />
     </LinearLayout>
 
     <LinearLayout
@@ -38,6 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toTopOf="@id/Password_Block"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
@@ -63,6 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="50dp"
         app:layout_constraintBottom_toTopOf="@id/confirm_button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.25"
@@ -112,13 +116,12 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:backgroundTint="@color/teal_700"
-        android:text="Business registration"
+        android:text="User registration"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.14"
+        app:layout_constraintHorizontal_bias="0.114"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/confirm_button"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@id/confirm_button" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
