@@ -3,6 +3,7 @@ package com.example.timshare;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,14 +15,15 @@ import classes.Event;
 
 public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder> {
     private ArrayList<Event> eventArrayList;
+    private AdapterView.OnItemClickListener onItemClickListener;
     public  AdapterEvent(ArrayList<Event> eventArrayList){
         this.eventArrayList=eventArrayList;
     }
     @NonNull
     @Override
     public AdapterEvent.EventHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_holder,parent,false);
-        return new AdapterEvent.EventHolder(view);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.card_holder,parent,false);
+        return new EventHolder(view);
     }
 
     @Override
@@ -35,12 +37,20 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder>
     public int getItemCount() {
         return this.eventArrayList.size();
     }
-    class  EventHolder extends RecyclerView.ViewHolder {
-         TextView eventName,eventDescription;
+    class  EventHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView eventName,eventDescription;
         public EventHolder(@NonNull View itemView) {
             super(itemView);
-            eventName=itemView.findViewById(R.id.eventNameView);
-            eventDescription=itemView.findViewById(R.id.eventescriptionItemView);
+            eventName=itemView.findViewById(R.id.nameView);
+            eventDescription=itemView.findViewById(R.id.descriptionItemView);
+            eventName.setOnClickListener(this);
+            eventDescription.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(null, v, getBindingAdapterPosition(), v.getId());
+
         }
     }
 }

@@ -3,6 +3,7 @@ package com.example.timshare;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,6 +15,7 @@ import interfaces.user;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
     private ArrayList<user> userArrayList;
+     private AdapterView.OnItemClickListener onItemClickListener;
     public AdapterUser(ArrayList<user> userArrayList){
         this.userArrayList=userArrayList;
     }
@@ -36,12 +38,19 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
     }
 
 
-    class  UserHolder extends RecyclerView.ViewHolder {
-        TextView userName,userDescription;
+    class  UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+        private TextView userName,userDescription;
         public UserHolder(@NonNull View itemView) {
             super(itemView);
             userName=itemView.findViewById(R.id.nameView);
             userDescription=itemView.findViewById(R.id.descriptionItemView);
+            userName.setOnClickListener(this);
+            userDescription.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onItemClickListener.onItemClick(null, v, getBindingAdapterPosition(), v.getId());
         }
     }
 }
