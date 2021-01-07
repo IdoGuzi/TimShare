@@ -13,15 +13,15 @@ import java.util.ArrayList;
 import classes.Event;
 
 public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder> {
-    ArrayList<Event> eventArrayList;
+    private ArrayList<Event> eventArrayList;
     public  AdapterEvent(ArrayList<Event> eventArrayList){
         this.eventArrayList=eventArrayList;
     }
     @NonNull
     @Override
     public AdapterEvent.EventHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.card_holder,parent,false);
-        return new EventHolder(view);
+        View view= LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card_holder,parent,false);
+        return new AdapterEvent.EventHolder(view);
     }
 
     @Override
@@ -36,11 +36,11 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder>
         return this.eventArrayList.size();
     }
     class  EventHolder extends RecyclerView.ViewHolder {
-        TextView eventName,eventDescription;
+         TextView eventName,eventDescription;
         public EventHolder(@NonNull View itemView) {
             super(itemView);
-            eventName=itemView.findViewById(R.id.nameView);
-            eventDescription=itemView.findViewById(R.id.descriptionItemView);
+            eventName=itemView.findViewById(R.id.eventNameView);
+            eventDescription=itemView.findViewById(R.id.eventescriptionItemView);
         }
     }
 }

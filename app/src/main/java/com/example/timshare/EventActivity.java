@@ -1,7 +1,5 @@
 package com.example.timshare;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -14,6 +12,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -77,7 +77,7 @@ public class EventActivity extends AppCompatActivity {
         calendar = Calendar.getInstance();
 
         endYear = startYear = calendar.get(Calendar.YEAR);
-        startMonth = endMonth = calendar.get(Calendar.MONTH) + 1;
+        startMonth = endMonth = calendar.get(Calendar.MONTH);
         startDay = endDay = calendar.get(Calendar.DAY_OF_MONTH);
         startHour = endHour = calendar.get(Calendar.HOUR_OF_DAY);
         startMin = endMinute = calendar.get(Calendar.MINUTE);
@@ -85,11 +85,10 @@ public class EventActivity extends AppCompatActivity {
 
         startTime = startHour + ":" + startMin;
         if (endHour != 23) endHour++;
-        //startDate = endDate = myDay + "/" + (myMonth+1) + "/" + myYear;
         startEventTimeViewText.setText(startTime);
-        startEventDateViewText.setText(startDay + "/" + (startMonth) + "/" + startYear);
+        startEventDateViewText.setText(startDay + "/" + (startMonth+1) + "/" + startYear);
         endEventTimeViewText.setText(endHour + ":" + endMinute);
-        endEventDateViewText.setText(endDay + "/" + (endMonth) + "/" + endYear);
+        endEventDateViewText.setText(endDay + "/" + (endMonth+1) + "/" + endYear);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final String uid = user.getUid();
 

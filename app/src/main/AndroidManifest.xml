@@ -3,8 +3,8 @@
     package="com.example.timshare">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
 
     <application
@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimShare">
 
+        <activity android:name=".BusinessSignUp" />
         <activity android:name=".SearchActivity" />
         <activity android:name=".SetupActivity" />
         <activity android:name=".ProfileActivity" />

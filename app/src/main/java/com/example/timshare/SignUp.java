@@ -36,6 +36,7 @@ public class SignUp extends AppCompatActivity {
     private TextInputEditText id, name, mail;
     private EditText pass;
     private Button create;
+    private Button business;
     FirebaseFirestore fStore;
     private FirebaseAuth fAuth;
     String userID;
@@ -47,6 +48,7 @@ public class SignUp extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up);
 
         create = (Button) findViewById(R.id.confirm_button);
+        business = (Button) findViewById(R.id.button);
         name = (TextInputEditText) findViewById(R.id.User_Name_Entry);
         mail = (TextInputEditText) findViewById(R.id.Email_Entry);
         pass = (EditText) findViewById(R.id.Password_Entry);

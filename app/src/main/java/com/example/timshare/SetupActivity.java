@@ -33,9 +33,6 @@ import java.util.HashMap;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-//import android.support.annotation.NonNull;
-//import android.support.v7.app.AppCompatActivity;
-
 public class SetupActivity extends AppCompatActivity {
     private EditText UserName, FullName, CountryName;
     private Button SaveInfobutton;
