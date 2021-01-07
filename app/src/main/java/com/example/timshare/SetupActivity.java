@@ -58,7 +58,6 @@ public class SetupActivity extends AppCompatActivity {
         UserProfileImageRef = FirebaseStorage.getInstance().getReference().child("Profile Images");
 
 
-        UserName = findViewById(R.id.setup_username);
         FullName = findViewById(R.id.setup_fullname);
         SaveInfobutton = findViewById(R.id.setup_saveBtn);
 //        CountryName = (EditText) findViewById(R.id.setup_country_name);
@@ -178,13 +177,10 @@ public class SetupActivity extends AppCompatActivity {
 
 
     private void SaveAccountSetupInformation() {
-        String username = UserName.getText().toString();
         String fullname = FullName.getText().toString();
 //        String country = CountryName.getText().toString();
 
-        if (TextUtils.isEmpty(username)) {
-            Toast.makeText(this, "Please write your username", Toast.LENGTH_SHORT).show();
-        }
+
         if (TextUtils.isEmpty(fullname)) {
             Toast.makeText(this, "Please write your full name", Toast.LENGTH_SHORT).show();
         }
@@ -198,13 +194,9 @@ public class SetupActivity extends AppCompatActivity {
             loadingBar.setCanceledOnTouchOutside(true);
 
             HashMap userMap = new HashMap();
-            userMap.put("username", username);
             userMap.put("fullname", fullname);
 //            userMap.put("country", country);
-//            userMap.put("status", "Hey there, i am using Poster Social Network, developed by Coding Cafe.");
 //            userMap.put("gender", "none");
-//            userMap.put("dob", "none");
-//            userMap.put("relationshipstatus", "none");
             UsersRef.updateChildren(userMap).addOnCompleteListener(new OnCompleteListener() {
                 @Override
                 public void onComplete(@NonNull Task task) {

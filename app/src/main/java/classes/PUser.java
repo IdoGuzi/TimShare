@@ -24,11 +24,13 @@ import interfaces.user;
 public class PUser implements user {
     private String Email;
     private String userName;
-    private Map<String,Boolean> friends;
-    private Map<String,Boolean> events;
+    private String profileimage;
+    private Map<String, Boolean> friends;
+    private Map<String, Boolean> events;
 
 
     public PUser(String email, String name) {
+        this.profileimage = "";
         this.Email = email;
         this.userName = name;
         friends = new HashMap<>();
@@ -36,10 +38,11 @@ public class PUser implements user {
     }
 
     public PUser() {
-        this.Email="";
-        this.userName="";
-        this.friends=new HashMap<>();
-        this.events=new HashMap<>();
+        this.profileimage = "";
+        this.Email = "";
+        this.userName = "";
+        this.friends = new HashMap<>();
+        this.events = new HashMap<>();
     }
 
 
@@ -57,6 +60,7 @@ public class PUser implements user {
     public String getUserName() {
         return userName;
     }
+
 
     @Override
     public void setUserName(String name) {
@@ -90,7 +94,7 @@ public class PUser implements user {
 
     @Override
     public void addFriend(String userID) {
-        friends.put(userID,true);
+        friends.put(userID, true);
     }
 
     @Override
@@ -99,8 +103,8 @@ public class PUser implements user {
     }
 
     @Override
-    public void setFriends(Map<String,Boolean> friends){
-        this.friends=friends;
+    public void setFriends(Map<String, Boolean> friends) {
+        this.friends = friends;
     }
 
     @Override
@@ -112,36 +116,37 @@ public class PUser implements user {
     public List<event> getEventsIn(Date from, Date to) {
         List<event> ev = new ArrayList<>();
         DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
-        Iterator<String> itr =events.keySet().iterator();
-        while(itr.hasNext()) {
+        Iterator<String> itr = events.keySet().iterator();
+        while (itr.hasNext()) {
             String s = itr.next();
             eventRef.child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     Event even = snapshot.getValue(Event.class);
-                    System.out.println("start of quary: "+ from.toString());
-                    System.out.println("start of event: "+ even.getEventStartingDate().toString());
-                    System.out.println("end of quary: "+ to.toString());
-                    System.out.println("end of event: "+ even.getEventEndingDate().toString());
+                    System.out.println("start of quary: " + from.toString());
+                    System.out.println("start of event: " + even.getEventStartingDate().toString());
+                    System.out.println("end of quary: " + to.toString());
+                    System.out.println("end of event: " + even.getEventEndingDate().toString());
                     if (even.getEventStartingDate().after(from) && even.getEventEndingDate().before(to)) {
-                        System.out.println("added event: "+even.toString());
+                        System.out.println("added event: " + even.toString());
                         ev.add(even);
                     }
                 }
+
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     Log.e(error.toString(), "an error occurred");
                 }
             });
         }
-        System.out.println("finished: "+ev.size());
+        System.out.println("finished: " + ev.size());
         return ev;
     }
 
 
     @Override
     public void addEvent(event e) {
-        events.put(e.getEventID(),true);
+        events.put(e.getEventID(), true);
     }
 
     @Override
@@ -150,9 +155,21 @@ public class PUser implements user {
     }
 
     @Override
-    public void setEvents(Map<String,Boolean> events){
-        this.events=events;
+    public void setEvents(Map<String, Boolean> events) {
+        this.events = events;
     }
+
+    @Override
+    public String getprofileimage() {
+        return profileimage;
+    }
+
+    @Override
+    public void setprofileimage(String photo_url) {
+        this.profileimage = photo_url;
+    }
+
+
     /*
     @Override
     public File getPhoto() throws IllegalArgumentException {
@@ -165,4 +182,9 @@ public class PUser implements user {
     }
 
      */
+
+    @Override
+    public String toString() {
+        return "name: " + userName + ", Email: " + Email;
+    }
 }

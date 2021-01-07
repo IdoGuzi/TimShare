@@ -21,6 +21,7 @@ import interfaces.user;
 
 
 public class Business implements user {
+    private String profileimage;
     private String Email;
     private String userName;
     private Map<String,Boolean> friends;
@@ -145,6 +146,16 @@ public class Business implements user {
         this.events=events;
     }
 
+    @Override
+    public String getprofileimage() {
+        return profileimage;
+    }
+
+    @Override
+    public void setprofileimage(String photo_url) {
+        this.profileimage = photo_url;
+    }
+
     /*
     @Override
     public File getPhoto() throws IllegalArgumentException {
@@ -157,5 +168,10 @@ public class Business implements user {
     }
 
      */
+
+    @Override
+    public String toString(){
+        return "name: " + userName + ", Email: " + Email;
+    }
 
 }
