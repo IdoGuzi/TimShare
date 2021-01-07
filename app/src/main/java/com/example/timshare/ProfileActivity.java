@@ -32,11 +32,13 @@ public class ProfileActivity extends AppCompatActivity {
     private String userID;
     private FirebaseAuth fAuth;
     private Button friends;
+    private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     String name = user.getDisplayName();
     String email = user.getEmail();
     private boolean privateUser;
     private interfaces.user userToDisplay;
+    private boolean done;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,64 +52,108 @@ public class ProfileActivity extends AppCompatActivity {
         friends = findViewById(R.id.friends);
 
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
 
 
         userID = getIntent().getExtras().getString("id");
-        getUserFromDataBase();
-        username.setText(userToDisplay.getUserName());
-        usermail.setText(userToDisplay.getEmail());
 
-
-        if (user.getUid()==userID){
-            friends.setText("edit profile");
-            friends.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent editing = new Intent(getBaseContext(),SetupActivity.class);
-                    startActivity(editing);
-                }
-            });
-        }else{
-            friends.setText("Friends");
-            friends.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent friends_list = new Intent(ProfileActivity.this, UserList.class);
-                    friends_list.putStringArrayListExtra("userIDs",new ArrayList<>(userToDisplay.getFriends()));
-                    startActivity(new Intent(getApplicationContext(), UserList.class));
-                }
-            });
-        }
-
-
-
-    }
-
-
-
-    private void getUserFromDataBase(){
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        privateUser = true;
+        System.out.println(userID);
         ref.child("Users").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (!snapshot.exists()) {privateUser=false;return;}
                 userToDisplay = snapshot.getValue(PUser.class);
+                if (userToDisplay!=null) {
+
+                    username.setText(userToDisplay.getUserName());
+                    usermail.setText(userToDisplay.getEmail());
+
+
+                    if (user.getUid()==userID){
+                        friends.setText("edit profile");
+                        friends.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent editing = new Intent(getBaseContext(),SetupActivity.class);
+                                startActivity(editing);
+                            }
+                        });
+                    }else{
+                        friends.setText("Friends");
+                        friends.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent friends_list = new Intent(ProfileActivity.this, UserList.class);
+                                friends_list.putStringArrayListExtra("userIDs",new ArrayList<String>(userToDisplay.getFriends()));
+                                startActivity(new Intent(getApplicationContext(), UserList.class));
+                            }
+                        });
+                    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    //if the user type is business!!!!!!!!!
+                }else{
+                    ref.child("Businesses").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            userToDisplay = snapshot.getValue(Business.class);
+                            if (userToDisplay==null) throw new RuntimeException("ERROR: user is not in data base");
+
+                            username.setText(userToDisplay.getUserName());
+                            usermail.setText(userToDisplay.getEmail());
+
+
+                            if (user.getUid()==userID){
+                                friends.setText("edit profile");
+                                friends.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent editing = new Intent(getBaseContext(),SetupActivity.class);
+                                        startActivity(editing);
+                                    }
+                                });
+                            }else{
+                                friends.setText("Friends");
+                                friends.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        Intent friends_list = new Intent(ProfileActivity.this, UserList.class);
+                                        friends_list.putStringArrayListExtra("userIDs",new ArrayList<>(userToDisplay.getFriends()));
+                                        startActivity(new Intent(getApplicationContext(), UserList.class));
+                                    }
+                                });
+                            }
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {}
         });
-        if (!privateUser){
-            ref.child("Businesses").child(userID).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (!snapshot.exists()) return;
-                    userToDisplay = snapshot.getValue(Business.class);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {}
-            });
-        }
+
     }
 }

@@ -84,7 +84,9 @@ public class CalendarActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                Intent profile = new Intent(getApplicationContext(),ProfileActivity.class);
+                profile.putExtra("id", fAuth.getCurrentUser().getUid());
+                startActivity(profile);
             }
         });
 
