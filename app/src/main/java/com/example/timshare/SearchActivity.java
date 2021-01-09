@@ -1,9 +1,6 @@
 package com.example.timshare;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -23,9 +20,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import classes.Event;
+import classes.PUser;
 import interfaces.user;
 
-public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class SearchActivity extends AppCompatActivity  {
 
     private SearchView searchView;
     private RecyclerView recyclerView;
@@ -35,7 +33,8 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
     private ArrayList<user> userArrayList = new ArrayList<>();
     ;
     private ConcatAdapter concatenated;
-    private HashMap<String, String> keyId = new HashMap<>();
+    private HashMap<user, String> keyUserID = new HashMap<>();
+    private HashMap<Event, String> keyEventID = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +71,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Event e = ds.getValue(Event.class);
                     eventArrayList.add(ds.getValue(Event.class));
-                    keyId.put(e.toString(), ds.getKey());
+                    keyEventID.put(e, ds.getKey());
                 }
             }
 
@@ -82,13 +81,13 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
-     /*  referenceUser.addValueEventListener(new ValueEventListener() {
+       referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     PUser u = ds.getValue(PUser.class);
                     userArrayList.add(u);
-                    keyId.put(u.toString(), ds.getKey());
+                    keyUserID.put(u, ds.getKey());
                 }
             }
 
@@ -97,7 +96,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 Toast.makeText(SearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT);
 
             }
-        });*/
+        });
     }
 
     private void search(String text) {
@@ -122,40 +121,16 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 userSearchList.add(u);
             }
         }
-        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList);
-        AdapterUser userAdapter = new AdapterUser(userSearchList);
+        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList,keyEventID);
+        AdapterUser userAdapter = new AdapterUser(userSearchList,keyUserID);
         concatenated = new ConcatAdapter();
         concatenated.addAdapter(userAdapter);
         concatenated.addAdapter(eventAdapter);
         recyclerView.setAdapter(concatenated);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        String s = parent.getItemAtPosition(position).toString();
-        Intent myIntent;
-        switch (view.getId()) {
-            case R.id.nameView:
-                myIntent = new Intent(SearchActivity.this, ProfileActivity.class);
-                myIntent.putExtra("com.example.timshare.Profile", keyId.get(s));
-                startActivity(myIntent);
-                break;
-            case R.id.descriptionItemView:
-                myIntent = new Intent(SearchActivity.this, ProfileActivity.class);
-                myIntent.putExtra("com.example.timshare.Profile", keyId.get(s));
-                startActivity(myIntent);
-                break;
-            case R.id.eventNameView:
-                myIntent = new Intent(SearchActivity.this, EditEventActivity.class);
-                myIntent.putExtra("com.example.timshare.EVENTID", keyId.get(s));
-                startActivity(myIntent);
-            case R.id.eventescriptionItemView:
-                myIntent = new Intent(SearchActivity.this, EditEventActivity.class);
-                myIntent.putExtra("com.example.timshare.EVENTID", keyId.get(s));
-                startActivity(myIntent);
-            default:
 
-        }
-    }
+
 }
