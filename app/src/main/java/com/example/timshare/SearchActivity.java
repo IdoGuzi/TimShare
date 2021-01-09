@@ -31,10 +31,9 @@ public class SearchActivity extends AppCompatActivity  {
     private DatabaseReference referenceEvents, referenceUser;
     private ArrayList<Event> eventArrayList = new ArrayList<>();
     private ArrayList<user> userArrayList = new ArrayList<>();
-    ;
     private ConcatAdapter concatenated;
-    private HashMap<user, String> keyUserID = new HashMap<>();
-    private HashMap<Event, String> keyEventID = new HashMap<>();
+    private HashMap<user, String> keyUserID = new HashMap<user,String>();
+    private HashMap<Event, String> keyEventID = new HashMap<Event,String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,11 +69,10 @@ public class SearchActivity extends AppCompatActivity  {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Event e = ds.getValue(Event.class);
-                    eventArrayList.add(ds.getValue(Event.class));
                     keyEventID.put(e, ds.getKey());
+                    eventArrayList.add(e);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(SearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT);
@@ -86,8 +84,8 @@ public class SearchActivity extends AppCompatActivity  {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     PUser u = ds.getValue(PUser.class);
-                    userArrayList.add(u);
                     keyUserID.put(u, ds.getKey());
+                    userArrayList.add(u);
                 }
             }
 
@@ -102,27 +100,37 @@ public class SearchActivity extends AppCompatActivity  {
     private void search(String text) {
         ArrayList<Event> eventSearchList = new ArrayList<>();
         ArrayList<user> userSearchList = new ArrayList<>();
+       HashMap<user, String> userHashKey = new HashMap<>();
+        HashMap<Event, String> eventHashKey = new HashMap<>();
+
+
         for (Event e : eventArrayList) {
             if (e.getEventName().toLowerCase().contains(text.toLowerCase())) {
                 eventSearchList.add(e);
+                eventHashKey.put(e,keyEventID.get(e));
+
             }
-            if (e.getEventDescription().toLowerCase().contains(text.toLowerCase())) {
+            else if (e.getEventDescription().toLowerCase().contains(text.toLowerCase())) {
                 eventSearchList.add(e);
+                eventHashKey.put(e,keyEventID.get(e));
             }
-            if (e.getEventLocation().toLowerCase().contains(text.toLowerCase())) {
+            else if (e.getEventLocation().toLowerCase().contains(text.toLowerCase())) {
                 eventSearchList.add(e);
+                eventHashKey.put(e,keyEventID.get(e));
             }
         }
         for (user u : userArrayList) {
             if (u.getUserName().toLowerCase().contains(text.toLowerCase())) {
                 userSearchList.add(u);
+                userHashKey.put(u,keyUserID.get(u));
             }
-            if (u.getEmail().toLowerCase().equals(text.toLowerCase())) {
+           else if (u.getEmail().toLowerCase().equals(text.toLowerCase())) {
                 userSearchList.add(u);
+                userHashKey.put(u,keyUserID.get(u));
             }
         }
-        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList,keyEventID);
-        AdapterUser userAdapter = new AdapterUser(userSearchList,keyUserID);
+        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList,eventHashKey);
+        AdapterUser userAdapter = new AdapterUser(userSearchList,userHashKey);
         concatenated = new ConcatAdapter();
         concatenated.addAdapter(userAdapter);
         concatenated.addAdapter(eventAdapter);
@@ -130,7 +138,5 @@ public class SearchActivity extends AppCompatActivity  {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
-
 
 }

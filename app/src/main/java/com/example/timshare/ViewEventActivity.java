@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,7 @@ import classes.PUser;
 
 public class ViewEventActivity extends AppCompatActivity {
     private TextView startEventDateViewText, endEventDateViewText, startEventTimeViewText, endEventTimeViewText;
-    private EditText viewTextEventName, viewTextLocation, viewTextDescription;
+    private TextView viewTextEventName, viewTextLocation, viewTextDescription;
     private Button cancelBtn, editBtn;
     private String eventID;
     private Event myEvent;
@@ -40,15 +39,15 @@ public class ViewEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_event);
-        startEventDateViewText = findViewById(R.id.startEventDateViewText);
-        endEventDateViewText = findViewById(R.id.endEventDateViewText);
-        startEventTimeViewText = findViewById(R.id.startEventTimeViewText);
-        endEventTimeViewText = findViewById(R.id.endEventTimeViewText);
-        viewTextEventName = findViewById(R.id.EditTextTitle1);
-        viewTextLocation = findViewById(R.id.EditTextTLocation1);
-        viewTextDescription = findViewById(R.id.editTextTDescription1);
-        cancelBtn = findViewById(R.id.cancleButton);
-        editBtn = findViewById(R.id.saveButton);
+        startEventDateViewText = findViewById(R.id.viewStartEventDateViewText);
+        endEventDateViewText = findViewById(R.id.viewEndEventDateViewText);
+        startEventTimeViewText = findViewById(R.id.viewStartEventTimeViewText);
+        endEventTimeViewText = findViewById(R.id.viewEndEventTimeViewText);
+        viewTextEventName = findViewById(R.id.viewTextTitle1);
+        viewTextLocation = findViewById(R.id.viewTextTLocation1);
+        viewTextDescription = findViewById(R.id.viewTextTDescription1);
+        cancelBtn = findViewById(R.id.viewCancleButton);
+        editBtn = findViewById(R.id.viewEditButton);
 
         if (getIntent().hasExtra("com.example.timshare.EVENTID")) {
             eventID = getIntent().getExtras().getString("com.example.timshare.EVENTID");

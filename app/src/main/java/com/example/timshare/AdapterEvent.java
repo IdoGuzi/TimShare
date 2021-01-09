@@ -39,7 +39,6 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder>
     @Override
     public void onBindViewHolder(@NonNull AdapterEvent.EventHolder holder, int position) {
         Event e=eventArrayList.get(position);
-         FirebaseAuth fAuth;
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String name = user.getDisplayName();
         holder.setEventUser(name);
@@ -51,10 +50,10 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder>
             @Override
             public void onClick(View v) {
                 Intent eventIntent=new Intent(v.getContext(),ViewEventActivity.class);
-                String key=keyHashMap.get(e);
+                String key=keyHashMap.get(eventArrayList.get(holder.getBindingAdapterPosition()));
+                System.out.println(key);
                 eventIntent.putExtra("com.example.timshare.EVENTID",key);
                 v.getContext().startActivity(eventIntent);
-
             }
         });
 
@@ -66,7 +65,7 @@ public class AdapterEvent extends RecyclerView.Adapter<AdapterEvent.EventHolder>
     }
 
 
-    class  EventHolder extends RecyclerView.ViewHolder {
+    class  EventHolder extends RecyclerView.ViewHolder  {
          View mView;
         public EventHolder(@NonNull View itemView) {
             super(itemView);
