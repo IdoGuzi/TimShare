@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import classes.Event;
-import classes.PUser;
 import interfaces.user;
 
 public class SearchActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
@@ -83,7 +82,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
 
             }
         });
-        referenceUser.addValueEventListener(new ValueEventListener() {
+     /*  referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot ds : snapshot.getChildren()) {
@@ -98,7 +97,7 @@ public class SearchActivity extends AppCompatActivity implements AdapterView.OnI
                 Toast.makeText(SearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT);
 
             }
-        });
+        });*/
     }
 
     private void search(String text) {
