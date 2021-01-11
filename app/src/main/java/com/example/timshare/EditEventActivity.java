@@ -1,8 +1,5 @@
 package com.example.timshare;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -15,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import classes.Date;
 import classes.Event;
@@ -220,8 +219,7 @@ public class EditEventActivity extends AppCompatActivity {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(EditEventActivity.this, DayActivity.class);
-                myIntent.putExtra("com.example.timshare.DATE", startDay + "-" + startMonth + "-" + startYear);
+                Intent myIntent = new Intent(EditEventActivity.this, CalendarActivity.class);
                 startActivity(myIntent);
 
             }

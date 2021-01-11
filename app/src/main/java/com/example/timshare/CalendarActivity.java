@@ -3,6 +3,7 @@ package com.example.timshare;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CalendarView;
@@ -13,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,6 +37,7 @@ public class CalendarActivity extends AppCompatActivity {
     private DatabaseReference UsersRef;
     private  Button profileBtn, logoutBtn;
     private ImageButton searchBtn;
+    private NavigationView navigationView;
 
 
 
@@ -43,20 +46,27 @@ public class CalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_calendar);
+
+        navigationView=findViewById(R.id.navigation_view);
         myCalender = findViewById(R.id.calendarView);
         calendar = Calendar.getInstance();
         dateFormat = new SimpleDateFormat(" MMM , yyyy");
-        profileBtn = findViewById(R.id.profilebtn);
-        logoutBtn = findViewById(R.id.logoutbtn);
         fAuth = FirebaseAuth.getInstance();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         searchBtn=findViewById(R.id.SearchButton);
 
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                userMenuSelector(item);
+                return false;
+            }
+        });
+
         searchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent searchIntent=new Intent(CalendarActivity.this,SearchActivity.class);
-                startActivity(searchIntent);
+                sendUserToAddSearchActivity();
             }
         });
 
@@ -75,34 +85,44 @@ public class CalendarActivity extends AppCompatActivity {
 
         addEventBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                myIntent = new Intent(CalendarActivity.this, EventActivity.class);
-                startActivity(myIntent);
+            public void onClick(View v) { sendUserToAddEventActivity();
             }
         });
 
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent profile = new Intent(getApplicationContext(),ProfileActivity.class);
-                profile.putExtra("id", fAuth.getCurrentUser().getUid());
-                startActivity(profile);
-            }
-        });
-
-        logoutBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                fAuth.signOut();
-                Intent loginIntent = new Intent(CalendarActivity.this,Login.class);
-                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                startActivity(loginIntent);
-                finish();
-            }
-        });
 
     }
 
+    private void userMenuSelector(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.nav_Profile:
+                Intent profile = new Intent(getApplicationContext(),ProfileActivity.class);
+                profile.putExtra("id", fAuth.getCurrentUser().getUid());
+                startActivity(profile);
+            case R.id.nav_home:
+                Intent home = new Intent(getApplicationContext(),CalendarActivity.class);
+                startActivity(home);
+            case R.id.nav_newEvent:
+                sendUserToAddEventActivity();
+            case R.id.nav_logout:
+                fAuth.signOut();
+                Intent loginIntent = new Intent(getApplicationContext(),Login.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginIntent);
+                finish();
+//                SendUserToLoginActivity();
+            case R.id.nav_settings:
+                SendUserToSetupActivity();
+            case R.id.nav_search:
+                sendUserToAddSearchActivity();
+            break;
+        }
+    }
+
+    private void sendUserToAddSearchActivity() {
+        Intent searchIntent=new Intent(CalendarActivity.this,SearchActivity.class);
+        startActivity(searchIntent);
+    }
 
 
     @Override
@@ -147,6 +167,11 @@ public class CalendarActivity extends AppCompatActivity {
         loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(loginIntent);
         finish();
+    }
+    private void sendUserToAddEventActivity()
+    {
+        myIntent = new Intent(CalendarActivity.this, EventActivity.class);
+        startActivity(myIntent);
     }
 
 }
