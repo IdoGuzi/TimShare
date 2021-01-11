@@ -48,7 +48,8 @@ public class UserList extends AppCompatActivity {
 
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        ArrayList<String> ids=extra.getStringArrayList("userIDs");
+        ArrayList<String> ids=getIntent().getStringArrayListExtra("userIDs");
+        if (ids==null) ids = new ArrayList<>();
         all = new ArrayList<>();
 
         ArrayAdapter<String> adap= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,new ArrayList<>(displayToObject.keySet()));
