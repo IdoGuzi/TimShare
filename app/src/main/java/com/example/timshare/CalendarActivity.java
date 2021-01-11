@@ -59,7 +59,7 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 userMenuSelector(item);
-                return false;
+                return true;
             }
         });
 
