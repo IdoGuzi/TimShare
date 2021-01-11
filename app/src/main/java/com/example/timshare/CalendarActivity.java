@@ -54,6 +54,8 @@ public class CalendarActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         UsersRef = FirebaseDatabase.getInstance().getReference().child("Users");
         searchBtn=findViewById(R.id.SearchButton);
+        View navView=navigationView.inflateHeaderView(R.layout.navigation_header);
+
 
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
