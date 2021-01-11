@@ -107,7 +107,12 @@ public class CalendarActivity extends AppCompatActivity {
             case R.id.nav_newEvent:
                 sendUserToAddEventActivity();
             case R.id.nav_logout:
-                SendUserToLoginActivity();
+                fAuth.signOut();
+                Intent loginIntent = new Intent(getApplicationContext(),Login.class);
+                loginIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(loginIntent);
+                finish();
+//                SendUserToLoginActivity();
             case R.id.nav_settings:
                 SendUserToSetupActivity();
             case R.id.nav_search:

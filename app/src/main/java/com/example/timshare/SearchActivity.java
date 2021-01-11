@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.ConcatAdapter;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,28 +58,30 @@ public class SearchActivity extends AppCompatActivity  {
                 return true;
             }
         });
-
-
     }
 
     @Override
     protected void onStart() {
         super.onStart();
+
         referenceEvents.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                 for (DataSnapshot ds : snapshot.getChildren()) {
                     Event e = ds.getValue(Event.class);
                     keyEventID.put(e, ds.getKey());
                     eventArrayList.add(e);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(SearchActivity.this, error.getMessage(), Toast.LENGTH_SHORT);
 
             }
         });
+
        referenceUser.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -124,6 +127,7 @@ public class SearchActivity extends AppCompatActivity  {
                 userSearchList.add(u);
                 userHashKey.put(u,keyUserID.get(u));
             }
+
            else if (u.getEmail().toLowerCase().equals(text.toLowerCase())) {
                 userSearchList.add(u);
                 userHashKey.put(u,keyUserID.get(u));
@@ -138,5 +142,4 @@ public class SearchActivity extends AppCompatActivity  {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
     }
-
 }
