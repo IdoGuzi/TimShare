@@ -51,7 +51,7 @@ import interfaces.user;
 public class ProfileActivity extends AppCompatActivity {
     private String userID;
     private FirebaseAuth fAuth;
-    private Button friends;
+    private Button friends,eventsBtn;
     private DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
     //    String name = user.getDisplayName();
@@ -79,6 +79,8 @@ public class ProfileActivity extends AppCompatActivity {
         TextView usermail = findViewById(R.id.emailaddress);
         ProfileImage = findViewById(R.id.profileimage);
         friends = findViewById(R.id.profile_friends_button);
+        eventsBtn=findViewById(R.id.viewAllEventsBtn);
+
         userID = getIntent().getExtras().getString("id");
 
         ref.child("Users").child(userID).addValueEventListener(new ValueEventListener() {
@@ -162,6 +164,15 @@ public class ProfileActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        eventsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent allEventsIntet=new Intent(ProfileActivity.this,viewAllEventsActivity.class);
+                allEventsIntet.putExtra("com.example.timshare.ALLEVENTID",userID);
+                startActivity(allEventsIntet);
             }
         });
     }

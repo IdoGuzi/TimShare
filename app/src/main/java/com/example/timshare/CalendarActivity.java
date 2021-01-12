@@ -44,10 +44,10 @@ public class CalendarActivity extends AppCompatActivity {
     private Intent myIntent;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private  Button profileBtn, logoutBtn;
-    private ImageButton searchBtn;
+    private ImageButton searchBtn ,notificationBtn;
     private NavigationView navigationView;
-    private CircleImageView navProfileImage;
-    private TextView navProfileUserName;
+    private CircleImageView navProfileImage,calendarProfileImage;
+    private TextView navProfileUserName,calendarProfileUserName;
     private DrawerLayout drawerLayot;
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
     private DatabaseReference userRef ,navUserRef;
@@ -75,9 +75,12 @@ public class CalendarActivity extends AppCompatActivity {
         dateFormat = new SimpleDateFormat(" MMM , yyyy");
 
         searchBtn=findViewById(R.id.SearchButton);
+        notificationBtn=findViewById(R.id.notification_btn);
         View navView=navigationView.inflateHeaderView(R.layout.navigation_header);
         navProfileImage=navView.findViewById(R.id.nav_Profile_Image);
         navProfileUserName=navView.findViewById(R.id.nav_Profile_name);
+        calendarProfileImage=findViewById(R.id.calendar_Profile_Image);
+        calendarProfileUserName=findViewById(R.id.calendar_Profile_name);
 
        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -91,6 +94,15 @@ public class CalendarActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendUserToAddSearchActivity();
+            }
+        });
+
+        notificationBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //עידו להוסיף לפה!!!!!!!!!!
+                /*Intent notificationIntent=new Intent(CalendarActivity.this,);
+                startActivity(notificationIntent);*/
             }
         });
 
@@ -116,14 +128,16 @@ public class CalendarActivity extends AppCompatActivity {
                 if(snapshot.exists())
                 {
                     PUser u=snapshot.getValue(PUser.class);
-                    System.out.println(u.toString());
                     navProfileUserName.setText(u.getUserName());
+                    calendarProfileUserName.setText(u.getUserName());
                     if(snapshot.child("profileimage").exists())
                     {
                         String image=snapshot.child("profileimage").getValue().toString();
                         if(!image.isEmpty())
                         {
-                            Picasso.get().load(image).placeholder(R.drawable.profile).into(navProfileImage);;
+                            Picasso.get().load(image).placeholder(R.drawable.profile).into(navProfileImage);
+                            Picasso.get().load(image).placeholder(R.drawable.profile).into(calendarProfileImage);;
+
                         }
                     }
                 }
@@ -135,6 +149,12 @@ public class CalendarActivity extends AppCompatActivity {
             }
         });
 
+        calendarProfileImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sendUserToProfileActivity();
+            }
+        });
 
     }
 
@@ -142,9 +162,7 @@ public class CalendarActivity extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.nav_Profile:
-                Intent profile = new Intent(getApplicationContext(),ProfileActivity.class);
-                profile.putExtra("id", mAuth.getCurrentUser().getUid());
-                startActivity(profile);
+                sendUserToProfileActivity();
                 break;
             case R.id.nav_home:
                 Intent home = new Intent(getApplicationContext(),CalendarActivity.class);
@@ -173,6 +191,12 @@ public class CalendarActivity extends AppCompatActivity {
     private void sendUserToAddSearchActivity() {
         Intent searchIntent=new Intent(CalendarActivity.this,SearchActivity.class);
         startActivity(searchIntent);
+    }
+    private void sendUserToProfileActivity()
+    {
+        Intent profile = new Intent(getApplicationContext(),ProfileActivity.class);
+        profile.putExtra("id", mAuth.getCurrentUser().getUid());
+        startActivity(profile);
     }
 
 

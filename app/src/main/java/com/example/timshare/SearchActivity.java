@@ -41,6 +41,8 @@ public class SearchActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
 
+
+
         searchView = findViewById(R.id.searchTextView);
         recyclerView = findViewById(R.id.recyclerView);
         referenceEvents = database.getReference().child("Events");
@@ -133,7 +135,7 @@ public class SearchActivity extends AppCompatActivity  {
                 userHashKey.put(u,keyUserID.get(u));
             }
         }
-        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList,eventHashKey);
+        AdapterEvent eventAdapter = new AdapterEvent(eventSearchList);
         AdapterUser userAdapter = new AdapterUser(userSearchList,userHashKey);
         concatenated = new ConcatAdapter();
         concatenated.addAdapter(userAdapter);
