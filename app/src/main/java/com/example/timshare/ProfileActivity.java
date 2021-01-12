@@ -90,7 +90,8 @@ public class ProfileActivity extends AppCompatActivity {
                     usermail.setText(userToDisplay.getEmail());
                     //String image = userToDisplay.getprofileimage();
                     String image = snapshot.child("profileimage").getValue().toString();
-                    Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
+                    if(!image.isEmpty())
+                         Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
 
                     if (user.getUid().equals(userID)) {
                         friends.setText("edit profile");
