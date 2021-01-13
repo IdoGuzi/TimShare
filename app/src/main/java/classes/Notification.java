@@ -10,14 +10,14 @@ public class Notification {
         to="";
         additional="";
         type=Request.none;
-        active = false;
+        active = true;
     }
 
     public Notification(String from, String to, Request t){
         this.from=from;
         this.to=to;
         this.type=t;
-        this.active=false;
+        this.active=true;
         this.additional="";
     }
 
