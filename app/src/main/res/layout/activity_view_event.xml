@@ -9,14 +9,15 @@
     <TextView
         android:id="@+id/viewTextTDescription1"
         android:layout_width="300dp"
-        android:layout_height="35dp"
+        android:layout_height="wrap_content"
         android:layout_marginStart="60dp"
         android:layout_marginTop="168dp"
         android:layout_marginEnd="60dp"
         android:ems="10"
         android:text="Description"
         android:textColor="#009688"
-        android:textSize="14sp"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewStartEventDateViewText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.555"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,15 +115,19 @@
     <TextView
         android:id="@+id/viewTextTitle1"
         android:layout_width="413dp"
-        android:layout_height="73dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:text="Title"
         android:textAlignment="center"
         android:textColor="#009688"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/viewStartEventTimeViewText"
@@ -143,20 +148,14 @@
     <TextView
         android:id="@+id/viewTextTLocation1"
         android:layout_width="300dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="60dp"
-        android:layout_marginBottom="10dp"
+        android:layout_height="wrap_content"
         android:ems="10"
         android:text="Location"
         android:textColor="#009688"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTDescription1"
+        android:textSize="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/viewTextTDescription1"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/EditTextTitle1"
-        app:layout_constraintVertical_bias="0.466" />
+        app:layout_constraintTop_toBottomOf="@+id/viewTextTitle1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

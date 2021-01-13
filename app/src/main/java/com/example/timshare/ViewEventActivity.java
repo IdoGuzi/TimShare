@@ -21,7 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import classes.Date;
 import classes.Event;
+import classes.Notification;
 import classes.PUser;
+
+import static classes.Request.friend;
 
 public class ViewEventActivity extends AppCompatActivity {
     private TextView startEventDateViewText, endEventDateViewText, startEventTimeViewText, endEventTimeViewText;
@@ -34,10 +37,13 @@ public class ViewEventActivity extends AppCompatActivity {
     private int endYear, endDay, endMonth, endHour, endMinute;
     private int startYear, startMonth, startDay, startHour, startMin;
     private Date dateStart, dateEnd;
+    private  String userID;
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_view_event);
         startEventDateViewText = findViewById(R.id.viewStartEventDateViewText);
         endEventDateViewText = findViewById(R.id.viewEndEventDateViewText);
@@ -54,43 +60,64 @@ public class ViewEventActivity extends AppCompatActivity {
             System.out.println(eventID);
         }
 
+        userID =mAuth.getCurrentUser().getUid();
+
         DatabaseReference ref = database.getReference();
         FirebaseUser user = users_data.getCurrentUser();
-        ref = ref.child("Users").child(user.getUid());
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events").child(eventID);
+        eventRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                PUser use = snapshot.getValue(PUser.class);
-                DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
-                eventRef.child(eventID).addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        myEvent = snapshot.getValue(Event.class);
-                        viewTextEventName.setText(myEvent.getEventName());
-                        viewTextLocation.setText(myEvent.getEventLocation());
-                        viewTextDescription.setText(myEvent.getEventDescription());
-                         dateStart = myEvent.getEventStartingDate();
-                        dateEnd = myEvent.getEventEndingDate();
-                        startDay = dateStart.getDay();
-                        startYear = dateStart.getYear();
-                        startMonth = dateStart.getMonth();
-                        startHour = dateStart.getHour();
-                        startMin = dateStart.getMin();
-                        startEventDateViewText.setText(startDay + "/" + startMonth + "/" + startYear);
-                        startEventTimeViewText.setText(startHour + ":" + startMin);
-                        endDay = dateEnd.getDay();
-                        endYear = dateEnd.getYear();
-                        endMonth = dateEnd.getMonth();
-                        endHour = dateEnd.getHour();
-                        endMinute = dateEnd.getMin();
-                        endEventDateViewText.setText(endDay + "/" + endMonth + "/" + endYear);
-                        endEventTimeViewText.setText(endHour + ":" + endMinute);
-                    }
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        Log.e(error.toString(), "an error occurred");
-                    }
-                });
+               myEvent = snapshot.getValue(Event.class);
+                if (myEvent.getEventOwnerID().equals(userID)) {
+                    editBtn.setText("edit event");
+                    editBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent editing = new Intent(getBaseContext(),EditEventActivity.class);
+                            editing.putExtra("com.example.timshare.EVENTID",eventID);
+                            startActivity(editing);
+                        }
+                    });
+                }
+                else{
+                    editBtn.setText("Add Events");
+                    editBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                          /*  Notification n = new Notification(user.getUid(),userID,);
+                            userToDisplay.addNotification(n);
+                            n.setActive(true);
+                            DatabaseReference user_ref = ref.child("Users");
+                            DatabaseReference usid_ref = user_ref.child(userID);
+                            DatabaseReference notificaiton_ref = usid_ref.child("notifications");
+                            DatabaseReference set_ref = notificaiton_ref.push();
+                            set_ref.setValue(n);*/
+
+                        }
+                    });
+                }
+
+               viewTextEventName.setText(myEvent.getEventName());
+                viewTextLocation.setText(myEvent.getEventLocation());
+                viewTextDescription.setText(myEvent.getEventDescription());
+                dateStart = myEvent.getEventStartingDate();
+                dateEnd = myEvent.getEventEndingDate();
+                startDay = dateStart.getDay();
+                startYear = dateStart.getYear();
+                startMonth = dateStart.getMonth();
+                startHour = dateStart.getHour();
+                startMin = dateStart.getMin();
+                startEventDateViewText.setText(startDay + "/" + startMonth + "/" + startYear);
+                startEventTimeViewText.setText(startHour + ":" + startMin);
+                endDay = dateEnd.getDay();
+                endYear = dateEnd.getYear();
+                endMonth = dateEnd.getMonth();
+                endHour = dateEnd.getHour();
+                endMinute = dateEnd.getMin();
+                endEventDateViewText.setText(endDay + "/" + endMonth + "/" + endYear);
+                endEventTimeViewText.setText(endHour + ":" + endMinute);
+
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -99,23 +126,6 @@ public class ViewEventActivity extends AppCompatActivity {
             }
         });
 
-        editBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String userKey = FirebaseAuth.getInstance().getUid();
-                if(userKey==myEvent.getEventOwnerID()) {
-                    Intent editIntent = new Intent(ViewEventActivity.this, EditEventActivity.class);
-                    editIntent.putExtra("com.example.timshare.EVENTID", eventID);
-                    startActivity(editIntent);
-                }else
-                {
-                    Toast.makeText(ViewEventActivity.this, "failed:\n" +
-                            "You do not have permission to edit this evente", Toast.LENGTH_LONG).show();
-                    Intent myIntent = new Intent(ViewEventActivity.this, CalendarActivity.class);
-                    startActivity(myIntent);
-                }
-            }
-        });
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

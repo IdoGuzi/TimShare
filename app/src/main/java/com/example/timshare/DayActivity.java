@@ -122,7 +122,7 @@ public class DayActivity extends AppCompatActivity {
 
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent myIntent = new Intent(DayActivity.this, EditEventActivity.class);
+                Intent myIntent = new Intent(DayActivity.this, ViewEventActivity.class);
                 myIntent.putExtra("com.example.timshare.EVENTID", id_event.get( arrayAdapter.getItem(position)));
                 startActivity(myIntent);
                 return true;

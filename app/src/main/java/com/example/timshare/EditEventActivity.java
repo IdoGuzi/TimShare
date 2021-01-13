@@ -39,7 +39,7 @@ public class EditEventActivity extends AppCompatActivity {
     private int myDay, myMonth, myYear, myHourOfDay, myMinute;
     private int endYear, endDay, endMonth, endHour, endMinute;
     private int startYear, startMonth, startDay, startHour, startMin;
-    private Button cancelBtn, saveBtn;
+    private Button cancelBtn, saveBtn,inviteBtn;
     private FirebaseAuth fAuth;
     private String startDate, endDate, endTime, startTime, location, eventName = "My event", Description;
     private DatePickerDialog startDatePickerDialog, endDatePickerDialog;
@@ -51,10 +51,12 @@ public class EditEventActivity extends AppCompatActivity {
     private FirebaseAuth users_data = FirebaseAuth.getInstance();
     private Event myEvent;
     private HashMap<String, Object> editObj;
+    private FirebaseAuth mAuth=FirebaseAuth.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_edit_event);
         startEventDateViewText = findViewById(R.id.startEventDateViewText);
         endEventDateViewText = findViewById(R.id.endEventDateViewText);
@@ -65,6 +67,7 @@ public class EditEventActivity extends AppCompatActivity {
         editTextDescription = findViewById(R.id.editTextTDescription1);
         cancelBtn = findViewById(R.id.cancleButton);
         saveBtn = findViewById(R.id.saveButton);
+        inviteBtn=findViewById(R.id.inviteFriendButton);
 
         if (getIntent().hasExtra("com.example.timshare.EVENTID")) {
             eventID = getIntent().getExtras().getString("com.example.timshare.EVENTID");
@@ -233,6 +236,13 @@ public class EditEventActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(EditEventActivity.this, DayActivity.class);
                 myIntent.putExtra("com.example.timshare.DATE", startDay + "-" + startMonth + "-" + startYear);
                 startActivity(myIntent);
+            }
+        });
+
+        inviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //עידו להוסיף לכאן!!
             }
         });
 

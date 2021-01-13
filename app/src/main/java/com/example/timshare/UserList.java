@@ -38,6 +38,7 @@ public class UserList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_user_list);
 
         list = findViewById(R.id.user_list);

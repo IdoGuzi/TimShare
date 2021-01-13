@@ -88,6 +88,8 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_profile);
 
 
@@ -108,11 +110,13 @@ public class ProfileActivity extends AppCompatActivity {
                     username.setText(userToDisplay.getUserName());
                     usermail.setText(userToDisplay.getEmail());
                     //String image = userToDisplay.getprofileimage();
-                    if(snapshot.child("profileimage").exists()) {
+
+          if (snapshot.child("profileimage").exists()) {
                         String image = snapshot.child("profileimage").getValue().toString();
-                        if (!image.isEmpty())
+                        if(!image.isEmpty())
                             Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
                     }
+
                     if (user.getUid().equals(userID)) {
                         add_or_edit.setText("edit profile");
                         add_or_edit.setOnClickListener(new View.OnClickListener() {
@@ -129,6 +133,7 @@ public class ProfileActivity extends AppCompatActivity {
                             public void onClick(View v) {
                                 Notification n = new Notification(user.getUid(),userID,friend);
                                 userToDisplay.addNotification(n);
+                                n.setActive(true);
                                 DatabaseReference user_ref = ref.child("Users");
                                 DatabaseReference usid_ref = user_ref.child(userID);
                                 DatabaseReference notificaiton_ref = usid_ref.child("notifications");
@@ -182,8 +187,13 @@ public class ProfileActivity extends AppCompatActivity {
                                     @Override
                                     public void onClick(View v) {
                                         Notification n = new Notification(user.getUid(),userID,friend);
-                                        DatabaseReference notification_ref = ref.child("Users").child(userID).child("notifications").push();
-                                        notification_ref.setValue(n);
+                                        userToDisplay.addNotification(n);
+                                        n.setActive(true);
+                                        DatabaseReference user_ref = ref.child("Businesses");
+                                        DatabaseReference usid_ref = user_ref.child(userID);
+                                        DatabaseReference notificaiton_ref = usid_ref.child("notifications");
+                                        DatabaseReference set_ref = notificaiton_ref.push();
+                                        set_ref.setValue(n);
                                     }
                                 });
                             }

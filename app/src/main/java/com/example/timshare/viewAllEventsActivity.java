@@ -44,6 +44,7 @@ public class viewAllEventsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_view_all_events);
 
         if (getIntent().hasExtra("com.example.timshare.ALLEVENTID")) {

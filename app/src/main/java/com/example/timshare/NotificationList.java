@@ -41,12 +41,13 @@ public class NotificationList extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         setContentView(R.layout.activity_notification_list);
 
         list = findViewById(R.id.notification_list);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-
+        data = new HashMap<>();
         ArrayAdapter<String> adap= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,new ArrayList<>());
         list.setAdapter(adap);
 
@@ -88,7 +89,9 @@ public class NotificationList extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 user to = snapshot.getValue(PUser.class);
                 List<Notification> not = to.getNotifications();
+                System.out.println(not.size());
                 for (Notification n : not){
+                    System.out.println(n.getFrom()+ " sent a message to you");
                     if (n.getType()!= Request.emmploey) {
                         ref.child("Users").child(n.getFrom()).addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
@@ -104,7 +107,7 @@ public class NotificationList extends AppCompatActivity {
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {}
                                     });
-                                }
+                                }else notification_display(adap,to,from,n);
                             }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {}
