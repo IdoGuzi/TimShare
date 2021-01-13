@@ -111,7 +111,7 @@ public class ProfileActivity extends AppCompatActivity {
                     usermail.setText(userToDisplay.getEmail());
                     //String image = userToDisplay.getprofileimage();
 
-          if (snapshot.child("profileimage").exists()) {
+                    if (snapshot.child("profileimage").exists()) {
                         String image = snapshot.child("profileimage").getValue().toString();
                         if(!image.isEmpty())
                             Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
@@ -148,7 +148,7 @@ public class ProfileActivity extends AppCompatActivity {
                         public void onClick(View v) {
                             Intent friends_list = new Intent(ProfileActivity.this, UserList.class);
                             friends_list.putStringArrayListExtra("userIDs",new ArrayList<String>(userToDisplay.getFriends()));
-                            startActivity(new Intent(getApplicationContext(), UserList.class));
+                            startActivity(friends_list);
                         }
                     });
 

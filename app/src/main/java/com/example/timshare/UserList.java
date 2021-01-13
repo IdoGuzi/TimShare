@@ -50,14 +50,6 @@ public class UserList extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> ids=getIntent().getStringArrayListExtra("userIDs");
-        if (ids==null){
-            System.out.println("list doesn't exist");
-            ids = new ArrayList<>();
-        }else {
-            for (String s : ids){
-                System.out.println(s);
-            }
-        }
 
         all = new ArrayList<>();
 
