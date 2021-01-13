@@ -24,6 +24,7 @@ import classes.Event;
 import classes.Notification;
 import classes.PUser;
 
+import static classes.Request.addEventRequest;
 import static classes.Request.friend;
 
 public class ViewEventActivity extends AppCompatActivity {
@@ -85,14 +86,14 @@ public class ViewEventActivity extends AppCompatActivity {
                     editBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                          /*  Notification n = new Notification(user.getUid(),userID,);
-                            userToDisplay.addNotification(n);
+                           Notification n = new Notification(user.getUid(),myEvent.getEventOwnerID(),addEventRequest);
                             n.setActive(true);
+                            n.setAdditional(myEvent.getEventID());
                             DatabaseReference user_ref = ref.child("Users");
-                            DatabaseReference usid_ref = user_ref.child(userID);
+                            DatabaseReference usid_ref = user_ref.child(myEvent.getEventOwnerID());
                             DatabaseReference notificaiton_ref = usid_ref.child("notifications");
                             DatabaseReference set_ref = notificaiton_ref.push();
-                            set_ref.setValue(n);*/
+                            set_ref.setValue(n);
 
                         }
                     });

@@ -71,6 +71,10 @@ public class NotificationList extends AppCompatActivity {
                             }else if (ng.getN().getType() == Request.emmploey){
 
                             }
+                            else if(ng.getN().getType()==Request.addEventRequest)
+                            {
+
+                            }
                         }
                     });
                     adb.setPositiveButton("accept", new AlertDialog.OnClickListener() {
@@ -81,6 +85,10 @@ public class NotificationList extends AppCompatActivity {
                             }else if (ng.getN().getType() == Request.friend){
                                     friend_acc(ng);
                             }else if (ng.getN().getType() == Request.emmploey){
+
+                            }
+                            else if(ng.getN().getType()==Request.addEventRequest)
+                            {
 
                             }
                         }
@@ -145,12 +153,15 @@ public class NotificationList extends AppCompatActivity {
         if (n.getActive()==false){
             display = "you've already answered this request";
         }
-        if (n.getType()==Request.invite){
+        if ((n.getType()==Request.invite)||(n.getType()==Request.addEventRequest)){
             ref.child("Events").child(n.getAdditional()).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     event e = snapshot.getValue(Event.class);
-                    String display = from.getUserName() + " invited you to the event: " + e.getEventName();
+                    String display;
+                    if(n.getType()==Request.invite)
+                    display = from.getUserName() + " invited you to the event: " + e.getEventName();
+                    else display=from.getUserName()+" want to participate in your event : \n"+e.getEventName();
                     data.put(display,new Notification_group(from,to,e,n));
                     adapter.add(display);
                 }
@@ -221,14 +232,37 @@ public class NotificationList extends AppCompatActivity {
     private void event_invition_acc(Notification_group ng){
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         String eventID = ng.getEve().getEventID();
-        ref.child("Events").child(eventID).child("invited").child(ng.getTo().getUserName()).setValue(null);
-        ref.child("Events").child(eventID).child("attendees").child(ng.getTo().getUserName()).setValue(true);
+        ref.child("Events").child(eventID).child("invited").child(ng.getN().getTo()).setValue(null);
+        ref.child("Events").child(eventID).child("attendees").child(ng.getN().getTo()).setValue(true);
         if (ng.getTo().getType()== user.userType._private) {
             ref.child("Users").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
             ref.child("Users").child(ng.getN().getTo()).child("events").child(ng.getN().getAdditional()).setValue(true);
         }else{
             ref.child("Businesses").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
             ref.child("Businesses").child(ng.getN().getTo()).child("events").child(ng.getN().getAdditional()).setValue(true);
+        }
+    }
+
+    private void event_request_dec(Notification_group ng){
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        String eventID = ng.getEve().getEventID();
+        if (ng.getTo().getType()== user.userType._private) {
+            ref.child("Users").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
+        }else{
+            ref.child("Businesses").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
+        }
+    }
+
+    private void event_request_acc(Notification_group ng) {
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        String eventID = ng.getEve().getEventID();
+        ref.child("Events").child(eventID).child("attendees").child(ng.getN().getFrom()).setValue(true);
+        if (ng.getTo().getType() == user.userType._private) {
+            ref.child("Users").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
+            ref.child("Users").child(ng.getN().getFrom()).child("events").child(ng.getN().getAdditional()).setValue(true);
+        } else {
+            ref.child("Businesses").child(ng.getN().getTo()).child("notifications").child(ng.getN().getID()).child("active").setValue(false);
+            ref.child("Businesses").child(ng.getN().getFrom()).child("events").child(ng.getN().getAdditional()).setValue(true);
         }
     }
 
