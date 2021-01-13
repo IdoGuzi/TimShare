@@ -23,12 +23,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import classes.Date;
 import classes.Event;
 import classes.PUser;
 import interfaces.event;
+import interfaces.user;
 
 public class EditEventActivity extends AppCompatActivity {
     private static final String TAG = "EventActivity";
@@ -52,6 +54,7 @@ public class EditEventActivity extends AppCompatActivity {
     private Event myEvent;
     private HashMap<String, Object> editObj;
     private FirebaseAuth mAuth=FirebaseAuth.getInstance();
+    private user myUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,6 +84,7 @@ public class EditEventActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 PUser use = snapshot.getValue(PUser.class);
+                myUser = use;
                 DatabaseReference eventRef = FirebaseDatabase.getInstance().getReference().child("Events");
                 eventRef.child(eventID).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -242,7 +246,11 @@ public class EditEventActivity extends AppCompatActivity {
         inviteBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //עידו להוסיף לכאן!!
+                Intent user_list = new Intent(EditEventActivity.this,UserList.class);
+                user_list.putExtra("invite",true);
+                user_list.putExtra("eventID",eventID);
+                user_list.putStringArrayListExtra("userIDs",new ArrayList<>(myUser.getFriends()));
+                startActivity(user_list);
             }
         });
 
