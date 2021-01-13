@@ -14,6 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TimShare">
         <activity android:name=".NotificationList"></activity>
+        <activity android:name=".viewAllEventsActivity"></activity>
         <activity android:name=".ViewEventActivity" />
         <activity android:name=".UserList" />
         <activity android:name=".BusinessSignUp" />

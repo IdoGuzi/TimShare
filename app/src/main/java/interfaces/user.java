@@ -109,6 +109,16 @@ public interface user {
 
     public void setEvents(Map<String,Boolean> friends);
 
+    /**
+     * return photo uri
+     */
+    public String getprofileimage();
+
+    /**
+     * return photo uri
+     */
+    public void setprofileimage(String photo_url);
+
     /*
     /**
      * note: file must be png,jpg,jepg.

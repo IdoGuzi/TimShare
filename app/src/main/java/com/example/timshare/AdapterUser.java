@@ -10,9 +10,17 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import interfaces.user;
 
 public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
@@ -34,12 +42,35 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
     public void onBindViewHolder(@NonNull AdapterUser.UserHolder holder, int position) {
         holder.setUserName(userArrayList.get(position).getUserName());
         holder.setUserEmail(userArrayList.get(position).getEmail());
+        holder.setProfileImage(userArrayList.get(position).getprofileimage());
+        String key=keyHashMap.get(userArrayList.get(position));
+        DatabaseReference  userRef= FirebaseDatabase.getInstance().getReference().child("Users");
+        userRef.child(key).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.exists())
+                {
+                    if(snapshot.child("profileimage").exists())
+                    {
+                        String image=snapshot.child("profileimage").getValue().toString();
+                        if(!image.isEmpty())
+                        {
+                            holder.setProfileImage(image);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }});
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent profileIntent=new Intent(v.getContext(),ProfileActivity.class);
-                String key=keyHashMap.get(userArrayList.get(position));
-                profileIntent.putExtra("com.example.timshare.user",key);
+                String key=keyHashMap.get(userArrayList.get(holder.getBindingAdapterPosition()));
+                profileIntent.putExtra("id",key);
                 v.getContext().startActivity(profileIntent);
 
             }
@@ -67,6 +98,12 @@ public class AdapterUser extends RecyclerView.Adapter<AdapterUser.UserHolder>{
         {
             TextView userEmail=mView.findViewById(R.id.user_email);
             userEmail.setText(userEmailStr);
+        }
+        void setProfileImage(String profileImage)
+        {
+            if(profileImage.isEmpty())return;
+            CircleImageView imag=mView.findViewById(R.id.user_profile_image);
+            Picasso.get().load(profileImage).placeholder(R.drawable.profile).into(imag);
         }
 
     }

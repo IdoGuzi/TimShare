@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/TimShare.iml" filepath="$PROJECT_DIR$/.idea/TimShare.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/TimShare.iml" filepath="$PROJECT_DIR$/.idea/modules/TimShare.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/TimShare.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/TimShare.app.iml" />
     </modules>
   </component>

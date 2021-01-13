@@ -21,6 +21,7 @@ import interfaces.user;
 
 
 public class Business implements user {
+    private String profileimage;
     private String Email;
     private String userName;
     private List<Notification> notifications;
@@ -163,6 +164,16 @@ public class Business implements user {
     @Override
     public void setEvents(Map<String,Boolean> friends) {
         this.events=events;
+    }
+
+    @Override
+    public String getprofileimage() {
+        return profileimage;
+    }
+
+    @Override
+    public void setprofileimage(String photo_url) {
+        this.profileimage = photo_url;
     }
 
     /*
