@@ -184,7 +184,12 @@ public class CalendarActivity extends AppCompatActivity {
                 break;
             case R.id.nav_search:
                 sendUserToAddSearchActivity();
-            break;
+                break;
+            case R.id.nav_events:
+                Intent allEventsIntet=new Intent(CalendarActivity.this,viewAllEventsActivity.class);
+                allEventsIntet.putExtra("com.example.timshare.ALLEVENTID",mAuth.getCurrentUser().getUid());
+                startActivity(allEventsIntet);
+                break;
         }
     }
 
