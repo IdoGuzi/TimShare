@@ -108,10 +108,11 @@ public class ProfileActivity extends AppCompatActivity {
                     username.setText(userToDisplay.getUserName());
                     usermail.setText(userToDisplay.getEmail());
                     //String image = userToDisplay.getprofileimage();
-                    String image = snapshot.child("profileimage").getValue().toString();
-                    if(!image.isEmpty())
-                         Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
-
+                    if(snapshot.child("profileimage").exists()) {
+                        String image = snapshot.child("profileimage").getValue().toString();
+                        if (!image.isEmpty())
+                            Picasso.get().load(image).placeholder(R.drawable.profile).into(ProfileImage);
+                    }
                     if (user.getUid().equals(userID)) {
                         add_or_edit.setText("edit profile");
                         add_or_edit.setOnClickListener(new View.OnClickListener() {
