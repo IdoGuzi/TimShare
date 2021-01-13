@@ -24,6 +24,7 @@ import interfaces.user;
 public class PUser implements user {
     private String Email;
     private String userName;
+    private List<Notification> notifications;
     private Map<String,Boolean> friends;
     private Map<String,Boolean> events;
 
@@ -44,6 +45,11 @@ public class PUser implements user {
 
 
     @Override
+    public userType getType() {
+        return userType._private;
+    }
+
+    @Override
     public String getEmail() {
         return Email;
     }
@@ -61,6 +67,20 @@ public class PUser implements user {
     @Override
     public void setUserName(String name) {
         userName = name;
+    }
+
+    @Override
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> no){
+        this.notifications=no;
+    }
+
+    @Override
+    public void addNotification(Notification n){
+        notifications.add(n);
     }
 
     /*

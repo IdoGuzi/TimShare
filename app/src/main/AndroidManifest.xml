@@ -13,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TimShare">
-        <activity android:name=".ViewEventActivity"></activity>
+        <activity android:name=".NotificationList"></activity>
+        <activity android:name=".ViewEventActivity" />
         <activity android:name=".UserList" />
         <activity android:name=".BusinessSignUp" />
         <activity android:name=".SearchActivity" />

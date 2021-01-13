@@ -5,9 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import classes.Date;
+import classes.Notification;
 
 public interface user {
 
+
+    public userType getType();
 
     /**
      * @return the Email of the user as a string.
@@ -44,6 +47,18 @@ public interface user {
      * @param d - the new date to assign to the user.
      */
     //public void setBirthday(Date d);
+
+    /**
+     *
+     * @return - the list of all the user notifications
+     */
+    public List<Notification> getNotifications();
+
+    /**
+     * add notification
+     * @param n - the notification to add
+     */
+    public void addNotification(Notification n);
 
     /**
      * @return - the list of all the user friends IDs.
@@ -111,4 +126,6 @@ public interface user {
      */
     //public void setPhoto(File f) throws IllegalArgumentException;
 
+
+    public enum userType{_private,_business}
 }
