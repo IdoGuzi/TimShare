@@ -138,6 +138,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 DatabaseReference usid_ref = user_ref.child(userID);
                                 DatabaseReference notificaiton_ref = usid_ref.child("notifications");
                                 DatabaseReference set_ref = notificaiton_ref.push();
+                                n.setID(set_ref.getKey());
                                 set_ref.setValue(n);
                             }
                         });
@@ -193,6 +194,7 @@ public class ProfileActivity extends AppCompatActivity {
                                         DatabaseReference usid_ref = user_ref.child(userID);
                                         DatabaseReference notificaiton_ref = usid_ref.child("notifications");
                                         DatabaseReference set_ref = notificaiton_ref.push();
+                                        n.setID(set_ref.getKey());
                                         set_ref.setValue(n);
                                     }
                                 });

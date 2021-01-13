@@ -50,7 +50,15 @@ public class UserList extends AppCompatActivity {
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
         ArrayList<String> ids=getIntent().getStringArrayListExtra("userIDs");
-        if (ids==null) ids = new ArrayList<>();
+        if (ids==null){
+            System.out.println("list doesn't exist");
+            ids = new ArrayList<>();
+        }else {
+            for (String s : ids){
+                System.out.println(s);
+            }
+        }
+
         all = new ArrayList<>();
 
         ArrayAdapter<String> adap= new ArrayAdapter<>(this,android.R.layout.simple_list_item_1,new ArrayList<>(displayToObject.keySet()));
@@ -69,6 +77,7 @@ public class UserList extends AppCompatActivity {
         });
 
         for (String s : ids){
+            System.out.println("friend " + s);
             ref.child("Users").child(s).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {

@@ -9,6 +9,7 @@ public class Notification {
         from="";
         to="";
         additional="";
+        ID = "";
         type=Request.none;
         active = true;
     }
@@ -19,6 +20,7 @@ public class Notification {
         this.type=t;
         this.active=true;
         this.additional="";
+        ID = "";
     }
 
     public String getID(){

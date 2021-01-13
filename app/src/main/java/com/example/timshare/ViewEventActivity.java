@@ -93,6 +93,7 @@ public class ViewEventActivity extends AppCompatActivity {
                             DatabaseReference usid_ref = user_ref.child(myEvent.getEventOwnerID());
                             DatabaseReference notificaiton_ref = usid_ref.child("notifications");
                             DatabaseReference set_ref = notificaiton_ref.push();
+                            n.setID(set_ref.getKey());
                             set_ref.setValue(n);
 
                         }
