@@ -31,6 +31,7 @@ import com.squareup.picasso.Picasso;
 import java.security.PrivateKey;
 import java.util.Calendar;
 
+import classes.Notification;
 import classes.PUser;
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -100,9 +101,8 @@ public class CalendarActivity extends AppCompatActivity {
         notificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //עידו להוסיף לפה!!!!!!!!!!
-                /*Intent notificationIntent=new Intent(CalendarActivity.this,);
-                startActivity(notificationIntent);*/
+                Intent notificationIntent=new Intent(CalendarActivity.this, NotificationList.class);
+                startActivity(notificationIntent);
             }
         });
 
