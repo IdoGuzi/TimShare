@@ -65,7 +65,9 @@ public class NotificationList extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (ng.getN().getType() == Request.invite) {
                                 event_invition_dec(ng);
-                            } else if (ng.getN().getType() == Request.friend) {
+                            }else if (ng.getN().getType() == Request.friend){
+                                    friend_dec(ng);
+                            }else if (ng.getN().getType() == Request.emmploey){
 
                             }
                         }
@@ -75,6 +77,10 @@ public class NotificationList extends AppCompatActivity {
                         public void onClick(DialogInterface dialog, int which) {
                             if (ng.getN().getType() == Request.invite) {
                                 event_invition_acc(ng);
+                            }else if (ng.getN().getType() == Request.friend){
+                                    friend_acc(ng);
+                            }else if (ng.getN().getType() == Request.emmploey){
+
                             }
                         }
                     });
